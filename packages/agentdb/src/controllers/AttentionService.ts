@@ -186,7 +186,7 @@ export class AttentionService {
   private async loadNAPIModule(): Promise<void> {
     try {
       // Try to import @ruvector/attention (NAPI bindings)
-      // @ts-ignore - Optional dependency
+      // @ts-expect-error - Optional dependency
       this.napiModule = await import('@ruvector/attention');
       console.log('✅ Loaded @ruvector/attention NAPI module');
     } catch (error) {
@@ -203,7 +203,7 @@ export class AttentionService {
   private async loadWASMModule(): Promise<void> {
     try {
       // Try to import ruvector-attention-wasm
-      // @ts-ignore - Optional dependency
+      // @ts-expect-error - Optional dependency
       this.wasmModule = await import('ruvector-attention-wasm');
       await this.wasmModule.default(); // Initialize WASM
       console.log('✅ Loaded ruvector-attention-wasm module');
@@ -235,7 +235,6 @@ export class AttentionService {
     }
 
     performance.mark('mha-start');
-    const startTime = Date.now();
 
     try {
       let output: Float32Array;
@@ -374,6 +373,136 @@ export class AttentionService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       throw new Error(`Flash attention failed: ${errorMessage}`);
+    }
+  }
+
+  /**
+   * Compute Flash Attention v2 (optimized memory-efficient attention)
+   *
+   * Flash Attention v2 achieves 2.49x-7.47x speedup over naive O(n²) attention
+   * - Improved parallelization over v1
+   * - Better memory coalescing
+   * - Support for variable sequence lengths
+   * - Optimized causal masking
+   *
+   * @param query - Query vectors [batchSize * seqLen * embedDim]
+   * @param key - Key vectors [batchSize * seqLen * embedDim]
+   * @param value - Value vectors [batchSize * seqLen * embedDim]
+   * @param options - Flash Attention v2 options
+   * @returns Attention output and metadata with speedup information
+   */
+  async flashAttentionV2(
+    query: Float32Array,
+    key: Float32Array,
+    value: Float32Array,
+    options?: {
+      mask?: Float32Array;
+      causal?: boolean;
+      windowSize?: number;
+      dropout?: number;
+    }
+  ): Promise<AttentionResult & { speedup?: number; baselineTimeMs?: number }> {
+    if (!this.initialized) {
+      await this.initialize();
+    }
+
+    performance.mark('flash-v2-start');
+
+    try {
+      let output: Float32Array;
+      let runtime: 'napi' | 'wasm' | 'fallback' = 'fallback';
+      let speedup: number | undefined;
+      let baselineTimeMs: number | undefined;
+
+      // Try NAPI first (fastest)
+      if (this.napiModule && this.napiModule.flashAttentionV2) {
+        const result = this.napiModule.flashAttentionV2(
+          query,
+          key,
+          value,
+          this.config.numHeads,
+          this.config.headDim,
+          {
+            mask: options?.mask,
+            causal: options?.causal ?? false,
+            windowSize: options?.windowSize,
+            dropout: options?.dropout ?? this.config.dropout ?? 0.0,
+          }
+        );
+        output = result.output;
+        speedup = result.speedup;
+        baselineTimeMs = result.baselineTimeMs;
+        runtime = 'napi';
+      }
+      // Try WASM (ADR-071 Phase 3 target)
+      else if (this.wasmModule && this.wasmModule.flashAttentionV2) {
+        const result = this.wasmModule.flashAttentionV2(
+          query,
+          key,
+          value,
+          this.config.numHeads,
+          this.config.headDim,
+          {
+            mask: options?.mask,
+            causal: options?.causal ?? false,
+            windowSize: options?.windowSize,
+            dropout: options?.dropout ?? this.config.dropout ?? 0.0,
+          }
+        );
+        output = result.output;
+        speedup = result.speedup;
+        baselineTimeMs = result.baselineTimeMs;
+        runtime = 'wasm';
+      }
+      // Fallback to Flash Attention v1 or standard attention
+      else {
+        console.warn('⚠️  Flash Attention v2 not available, falling back to v1');
+        // Benchmark baseline for comparison
+        const baselineStart = performance.now();
+        const fallbackResult = this.multiHeadAttentionFallback(query, key, value, options?.mask);
+        baselineTimeMs = performance.now() - baselineStart;
+
+        // Use v1 Flash Attention if available
+        if (this.wasmModule?.flashAttention || this.napiModule?.flashAttention) {
+          const flashStart = performance.now();
+          const flashResult = await this.flashAttention(query, key, value, options?.mask);
+          const flashTimeMs = performance.now() - flashStart;
+          output = flashResult.output;
+          speedup = baselineTimeMs / flashTimeMs;
+          runtime = flashResult.runtime;
+        } else {
+          output = fallbackResult.output;
+          speedup = 1.0; // No speedup in pure fallback
+          runtime = 'fallback';
+        }
+      }
+
+      performance.mark('flash-v2-end');
+      performance.measure('flash-v2', 'flash-v2-start', 'flash-v2-end');
+      const measure = performance.getEntriesByName('flash-v2')[0];
+      const executionTimeMs = measure.duration;
+
+      // Update statistics
+      this.updateStats('flash-v2', runtime, executionTimeMs, output.length * 4);
+
+      // Log performance metrics for ADR-071 verification
+      if (speedup && speedup >= 2.49) {
+        console.log(`✅ Flash Attention v2 achieved ${speedup.toFixed(2)}x speedup (target: 2.49x-7.47x)`);
+      } else if (speedup) {
+        console.warn(`⚠️  Flash Attention v2 speedup ${speedup.toFixed(2)}x below target (2.49x-7.47x)`);
+      }
+
+      return {
+        output,
+        executionTimeMs,
+        mechanism: 'flash',
+        runtime,
+        speedup,
+        baselineTimeMs,
+      };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      throw new Error(`Flash Attention v2 failed: ${errorMessage}`);
     }
   }
 
@@ -623,9 +752,8 @@ export class AttentionService {
     value: Float32Array,
     mask?: Float32Array
   ): { output: Float32Array; weights?: Float32Array } {
-    const { numHeads, headDim, embedDim } = this.config;
+    const { headDim, embedDim } = this.config;
     const seqLen = Math.floor(query.length / embedDim);
-    const batchSize = 1; // Simplified for fallback
 
     // Simple scaled dot-product attention
     const scale = 1.0 / Math.sqrt(headDim);

@@ -133,3 +133,5 @@ hive-mind-prompt-*.txt
 
 # SHM files
 *.db-shm
+packages/agentdb-chat-ui/
+packages/agentdb-chat/.models/

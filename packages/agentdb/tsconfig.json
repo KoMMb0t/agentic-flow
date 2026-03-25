@@ -31,7 +31,9 @@
   "include": [
     "src/**/*",
     "simulation/**/*",
-    "simulation/scenarios/**/*"
+    "simulation/scenarios/**/*",
+    "benchmarks/**/*",
+    "examples/**/*"
   ],
   "exclude": [
     "node_modules",
