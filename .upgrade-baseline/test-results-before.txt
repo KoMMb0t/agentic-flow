@@ -1,0 +1,1474 @@
+
+> agentic-flow@1.10.3 test
+> npm run test:main && npm run test:parallel
+
+
+> agentic-flow@1.10.3 test:main
+> cd agentic-flow && npm test
+
+
+> agentic-flow@3.0.0-alpha.1 test
+> vitest run --reporter=verbose
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/workspaces/agentic-flow/agentic-flow[39m
+
+ [32m✓[39m tests/orchestration/orchestration-client.test.ts[2m > [22mOrchestrationClient[2m > [22mstartRun returns runId and getStatus returns client shape[32m 12[2mms[22m[39m
+ [32m✓[39m tests/orchestration/orchestration-client.test.ts[2m > [22mOrchestrationClient[2m > [22mcancel returns success[32m 1[2mms[22m[39m
+ [32m✓[39m tests/orchestration/orchestration-client.test.ts[2m > [22mOrchestrationClient[2m > [22mstartRun accepts loopPolicy and passes it through[32m 1[2mms[22m[39m
+ [32m✓[39m tests/orchestration/orchestration-client.test.ts[2m > [22mOrchestrationClient[2m > [22mseed, search, and harvest work for a run[32m 2[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mHybridReasoningBank - Basic Operations[2m > [22m[2mshould perform what-if analysis
+[22m[39m[HybridReasoningBank] What-if analysis failed: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at ReflexionMemory.getTaskStats (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/ReflexionMemory.js:336:30)
+    at HybridReasoningBank.whatIfAnalysis [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/HybridBackend.ts:318:42[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:148:32
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+[90mstdout[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mAdvancedMemorySystem - High-Level Operations[2m > [22m[2mshould run auto-consolidation
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mAdvancedMemorySystem - High-Level Operations[2m > [22m[2mshould run auto-consolidation
+[22m[39m❌ Nightly Learner Failed: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at NightlyLearner.discoverCausalEdges (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:245:40)
+    at NightlyLearner.run (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:80:49)
+    at AdvancedMemorySystem.autoConsolidate [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:97:41[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:232:35
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mAdvancedMemorySystem - High-Level Operations[2m > [22m[2mshould run auto-consolidation
+[22m[39m[AdvancedMemorySystem] Auto-consolidation failed: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at NightlyLearner.discoverCausalEdges (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:245:40)
+    at NightlyLearner.run (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:80:49)
+    at AdvancedMemorySystem.autoConsolidate [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:97:41[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:232:35
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mAdvancedMemorySystem - High-Level Operations[2m > [22m[2mshould replay failures
+[22m[39m[HybridReasoningBank] CausalRecall failed, falling back to ReflexionMemory: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at CausalRecall.vectorSearch (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/CausalRecall.js:126:34)
+    at CausalRecall.recall (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/CausalRecall.js:59:39)
+    at HybridReasoningBank.retrievePatterns [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/HybridBackend.ts:148:22[90m)[39m
+    at AdvancedMemorySystem.replayFailures [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:139:22[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:256:24
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mAdvancedMemorySystem - High-Level Operations[2m > [22m[2mshould perform what-if analysis
+[22m[39m[HybridReasoningBank] What-if analysis failed: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at ReflexionMemory.getTaskStats (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/ReflexionMemory.js:336:30)
+    at HybridReasoningBank.whatIfAnalysis [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/HybridBackend.ts:318:42[90m)[39m
+    at AdvancedMemorySystem.whatIfAnalysis [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:222:48[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:268:37
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+[90mstdout[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mAdvancedMemorySystem - High-Level Operations[2m > [22m[2mshould run learning cycle
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mAdvancedMemorySystem - High-Level Operations[2m > [22m[2mshould run learning cycle
+[22m[39m❌ Nightly Learner Failed: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at NightlyLearner.discoverCausalEdges (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:245:40)
+    at NightlyLearner.run (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:80:49)
+    at AdvancedMemorySystem.autoConsolidate [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:97:41[90m)[39m
+    at AdvancedMemorySystem.runLearningCycle [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:292:17[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:295:35
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mAdvancedMemorySystem - High-Level Operations[2m > [22m[2mshould run learning cycle
+[22m[39m[AdvancedMemorySystem] Auto-consolidation failed: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at NightlyLearner.discoverCausalEdges (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:245:40)
+    at NightlyLearner.run (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:80:49)
+    at AdvancedMemorySystem.autoConsolidate [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:97:41[90m)[39m
+    at AdvancedMemorySystem.runLearningCycle [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:292:17[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:295:35
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+[90mstdout[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mEnd-to-End Workflow[2m > [22m[2mshould support advanced memory workflow
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mEnd-to-End Workflow[2m > [22m[2mshould support advanced memory workflow
+[22m[39m❌ Nightly Learner Failed: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at NightlyLearner.discoverCausalEdges (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:245:40)
+    at NightlyLearner.run (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:80:49)
+    at AdvancedMemorySystem.autoConsolidate [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:97:41[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:369:42
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+[90mstderr[2m | tests/reasoningbank/integration.test.ts[2m > [22m[2mReasoningBank v1.7.1 - Integration Tests[2m > [22m[2mEnd-to-End Workflow[2m > [22m[2mshould support advanced memory workflow
+[22m[39m[AdvancedMemorySystem] Auto-consolidation failed: Error: Database not initialized
+    at Database.prepare [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/db/sql-adapter.ts:43:13[90m)[39m
+    at NightlyLearner.discoverCausalEdges (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:245:40)
+    at NightlyLearner.run (file:///workspaces/agentic-flow/node_modules/[4magentdb[24m/dist/src/controllers/NightlyLearner.js:80:49)
+    at AdvancedMemorySystem.autoConsolidate [90m(/workspaces/agentic-flow/agentic-flow/[39msrc/reasoningbank/AdvancedMemory.ts:97:41[90m)[39m
+    at [90m/workspaces/agentic-flow/agentic-flow/[39mtests/reasoningbank/integration.test.ts:369:42
+    at file:///workspaces/agentic-flow/node_modules/[4m@vitest[24m/runner/dist/index.js:915:20
+
+ [32m✓[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mModule Exports[2m > [22mshould export HybridReasoningBank[32m 133[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mModule Exports[2m > [22mshould export AdvancedMemorySystem[32m 8[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mModule Exports[2m > [22mshould export type interfaces[32m 7[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould initialize with WASM preference[32m 1[2mms[22m[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould store a pattern successfully[32m 7[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould retrieve patterns[32m 1[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould perform strategy learning[32m 1[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [32m✓[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould perform what-if analysis[32m 3[2mms[22m[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould auto-consolidate patterns[32m 1[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould search for skills[32m 2[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould return statistics[32m 1[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [32m✓[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould initialize successfully[32m 0[2mms[22m[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould run auto-consolidation[32m 3[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould replay failures[32m 3[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [32m✓[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould perform what-if analysis[32m 1[2mms[22m[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould compose skills[32m 1[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould run learning cycle[32m 2[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould return system statistics[32m 2[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mEnd-to-End Workflow[2m > [22mshould support complete reasoning workflow[32m 1[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [31m×[39m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mEnd-to-End Workflow[2m > [22mshould support advanced memory workflow[32m 2[2mms[22m[39m
+[31m   → Database not initialized[39m
+[90mstderr[2m | src/reasoningbank/HybridBackend.ts:87:17
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - Imports[2m > [22mshould support old embedded agentdb imports[32m 136[2mms[22m[39m
+ [32m✓[39m tests/orchestration/loop-policy.test.ts[2m > [22mLoop policy - types[2m > [22mSuccessCriteria allows tests, lint, typecheck, custom[32m 2[2mms[22m[39m
+ [32m✓[39m tests/orchestration/loop-policy.test.ts[2m > [22mLoop policy - types[2m > [22mRetryPolicy allows maxAttempts, backoffMs, onFailureClass[32m 0[2mms[22m[39m
+ [32m✓[39m tests/orchestration/loop-policy.test.ts[2m > [22mLoop policy - types[2m > [22mBudgetLimits allows tokens, timeMs, costUsd[32m 0[2mms[22m[39m
+ [32m✓[39m tests/orchestration/loop-policy.test.ts[2m > [22mLoop policy - types[2m > [22mLoopPolicy aggregates maxIterations, successCriteria, retryPolicy, budgetLimits[32m 1[2mms[22m[39m
+ [32m✓[39m tests/orchestration/loop-policy.test.ts[2m > [22mLoop policy - pass-through on orchestrateTask[2m > [22mOrchestrateTaskInput accepts optional loopPolicy[32m 2[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mPattern Storage[2m > [22m[2mshould store a failed pattern without causal edge
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/orchestration/orchestration-api.test.ts[2m > [22mOrchestration API - types and factory[2m > [22mcreateOrchestrator returns an orchestrator with orchestrateTask[32m 2[2mms[22m[39m
+ [32m✓[39m tests/orchestration/orchestration-api.test.ts[2m > [22mOrchestration API - types and factory[2m > [22mRunHandle has runId string[32m 2[2mms[22m[39m
+ [32m✓[39m tests/orchestration/orchestration-api.test.ts[2m > [22mOrchestration API - getRunStatus[2m > [22mgetRunStatus returns RunStatus with phase and progress[32m 2[2mms[22m[39m
+ [32m✓[39m tests/orchestration/orchestration-api.test.ts[2m > [22mOrchestration API - getRunStatus[2m > [22mgetRunStatus for unknown runId returns unknown phase[32m 0[2mms[22m[39m
+ [32m✓[39m tests/orchestration/orchestration-api.test.ts[2m > [22mOrchestration API - cancelRun[2m > [22mcancelRun does not throw[32m 1[2mms[22m[39m
+ [32m✓[39m tests/orchestration/orchestration-api.test.ts[2m > [22mOrchestration API - getRunArtifacts[2m > [22mgetRunArtifacts returns RunArtifacts shape[32m 0[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mPattern Storage[2m > [22mshould store a successful pattern with causal edge[32m 143[2mms[22m[39m
+ [31m×[39m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - Imports[2m > [22mshould support new reasoningbank exports[32m 188[2mms[22m[39m
+[31m   → expected undefined to be defined[39m
+ [32m✓[39m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - Imports[2m > [22mshould support shared memory pool[32m 18[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mPattern Storage[2m > [22m[2mshould store multiple related patterns
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/orchestration/memory-plane.test.ts[2m > [22mMemory plane - seedMemory[2m > [22mseedMemory accepts runId and entries array[32m 2[2mms[22m[39m
+ [32m✓[39m tests/orchestration/memory-plane.test.ts[2m > [22mMemory plane - seedMemory[2m > [22mseedMemory with empty entries does not throw[32m 0[2mms[22m[39m
+ [32m✓[39m tests/orchestration/memory-plane.test.ts[2m > [22mMemory plane - recordLearning[2m > [22mrecordLearning accepts runId and learning string[32m 0[2mms[22m[39m
+ [32m✓[39m tests/orchestration/memory-plane.test.ts[2m > [22mMemory plane - recordLearning[2m > [22mrecordLearning accepts optional score and provenance[32m 0[2mms[22m[39m
+ [32m✓[39m tests/orchestration/memory-plane.test.ts[2m > [22mMemory plane - searchMemory[2m > [22msearchMemory with run scope returns array of results[32m 1[2mms[22m[39m
+ [32m✓[39m tests/orchestration/memory-plane.test.ts[2m > [22mMemory plane - searchMemory[2m > [22msearchMemory with global scope returns array[32m 0[2mms[22m[39m
+ [32m✓[39m tests/orchestration/memory-plane.test.ts[2m > [22mMemory plane - searchMemory[2m > [22msearchMemory respects topK[32m 0[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mPattern Storage[2m > [22mshould store a failed pattern without causal edge[32m 102[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mPattern Retrieval with CausalRecall[2m > [22m[2mshould retrieve similar successful patterns
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould run full consolidation pipeline
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould run full consolidation pipeline
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould run full consolidation pipeline
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould run full consolidation pipeline
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould run full consolidation pipeline
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 5ms
+  Timestamp: 2026-03-25T21:06:31.748Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mPattern Storage[2m > [22mshould store multiple related patterns[32m 106[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation with NightlyLearner[2m > [22mshould run full consolidation pipeline[33m 364[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mPattern Retrieval with CausalRecall[2m > [22m[2mshould retrieve failed patterns for learning
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould discover causal edges from patterns
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould discover causal edges from patterns
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould discover causal edges from patterns
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould discover causal edges from patterns
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould discover causal edges from patterns
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 1ms
+  Timestamp: 2026-03-25T21:06:32.060Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mPattern Retrieval with CausalRecall[2m > [22mshould retrieve similar successful patterns[33m 313[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation with NightlyLearner[2m > [22mshould discover causal edges from patterns[33m 306[2mms[22m[39m
+[90mstdout[2m | tests/backwards-compatibility.test.ts[2m > [22m[2mBackwards Compatibility - API Signatures[2m > [22m[2mshould maintain ReflexionMemory API
+[22m[39m✅ Transformers.js loaded: Xenova/all-MiniLM-L6-v2
+
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mPattern Retrieval with CausalRecall[2m > [22m[2mshould use query cache for repeated queries
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould create skills from high-performing patterns
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould create skills from high-performing patterns
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould create skills from high-performing patterns
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould create skills from high-performing patterns
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould create skills from high-performing patterns
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 8ms
+  Timestamp: 2026-03-25T21:06:32.366Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+[90mstdout[2m | tests/backwards-compatibility.test.ts[2m > [22m[2mBackwards Compatibility - Memory Operations[2m > [22m[2mshould produce consistent results between old and new APIs
+[22m[39m✅ Transformers.js loaded: Xenova/all-MiniLM-L6-v2
+
+ [31m×[39m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - API Signatures[2m > [22mshould maintain ReflexionMemory API[33m 671[2mms[22m[39m
+[31m   → no such table: episodes[39m
+ [31m×[39m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - API Signatures[2m > [22mshould maintain HybridReasoningBank API[32m 9[2mms[22m[39m
+[31m   → Database not initialized[39m
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mPattern Retrieval with CausalRecall[2m > [22mshould retrieve failed patterns for learning[33m 318[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation with NightlyLearner[2m > [22mshould create skills from high-performing patterns[33m 313[2mms[22m[39m
+ [31m×[39m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - Memory Operations[2m > [22mshould produce consistent results between old and new APIs[32m 129[2mms[22m[39m
+[31m   → no such table: episodes[39m
+ [32m✓[39m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - Package Exports[2m > [22mshould export all expected modules[32m 174[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mPattern Retrieval with CausalRecall[2m > [22m[2mshould filter by minimum reward
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould provide recommendations
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould provide recommendations
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould provide recommendations
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould provide recommendations
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould provide recommendations
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 17ms
+  Timestamp: 2026-03-25T21:06:32.679Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mPattern Retrieval with CausalRecall[2m > [22mshould use query cache for repeated queries[33m 316[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation with NightlyLearner[2m > [22mshould provide recommendations[33m 322[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mStrategy Learning with Task Statistics[2m > [22m[2mshould learn optimal strategy from successful patterns
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle dry run mode
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle dry run mode
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle dry run mode
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle dry run mode
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle dry run mode
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 24ms
+  Timestamp: 2026-03-25T21:06:33.001Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mPattern Retrieval with CausalRecall[2m > [22mshould filter by minimum reward[33m 315[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation with NightlyLearner[2m > [22mshould handle dry run mode[33m 329[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mStrategy Learning with Task Statistics[2m > [22m[2mshould provide causal insights
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 28ms
+  Timestamp: 2026-03-25T21:06:33.330Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mStrategy Learning with Task Statistics[2m > [22mshould learn optimal strategy from successful patterns[33m 308[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould respect lookback window
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 29ms
+  Timestamp: 2026-03-25T21:06:33.358Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation with NightlyLearner[2m > [22mshould respect lookback window[33m 362[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mStrategy Learning with Task Statistics[2m > [22m[2mshould handle tasks with no prior experience
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mStrategy Learning with Task Statistics[2m > [22mshould provide causal insights[33m 305[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle graceful fallback on NightlyLearner error
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle graceful fallback on NightlyLearner error
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle graceful fallback on NightlyLearner error
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle graceful fallback on NightlyLearner error
+[22m[39m   ✓ Created 10 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation with NightlyLearner[2m > [22m[2mshould handle graceful fallback on NightlyLearner error
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 63ms
+  Timestamp: 2026-03-25T21:06:33.693Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 10
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation with NightlyLearner[2m > [22mshould handle graceful fallback on NightlyLearner error[33m 369[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mStrategy Learning with Task Statistics[2m > [22m[2mshould calculate confidence based on evidence
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [31m×[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mStrategy Learning with Task Statistics[2m > [22mshould handle tasks with no prior experience[33m 356[2mms[22m[39m
+[31m   → expected 10 to be +0 // Object.is equality[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mEpisodic Replay - Learning from Failures[2m > [22mshould retrieve and analyze failures[33m 376[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation[2m > [22m[2mshould consolidate frequent patterns into skills
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mStrategy Learning with Task Statistics[2m > [22mshould calculate confidence based on evidence[33m 332[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mEpisodic Replay - Learning from Failures[2m > [22mshould extract meaningful critiques[33m 310[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation[2m > [22m[2mshould respect minimum uses threshold
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation[2m > [22mshould consolidate frequent patterns into skills[33m 312[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mEpisodic Replay - Learning from Failures[2m > [22mshould identify what went wrong[33m 313[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mAuto-Consolidation[2m > [22m[2mshould respect minimum success rate threshold
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation[2m > [22mshould respect minimum uses threshold[33m 305[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mEpisodic Replay - Learning from Failures[2m > [22mshould generate actionable fixes[33m 306[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mWhat-If Causal Analysis[2m > [22m[2mshould predict positive outcomes for beneficial actions
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mAuto-Consolidation[2m > [22mshould respect minimum success rate threshold[33m 308[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mWhat-If Causal Analysis[2m > [22m[2mshould predict negative outcomes for harmful actions
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould predict positive outcomes for beneficial actions[33m 304[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mEpisodic Replay - Learning from Failures[2m > [22mshould count similar failures[33m 303[2mms[22m[39m
+ [31m×[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mEpisodic Replay - Learning from Failures[2m > [22mshould handle tasks with no failures[33m 342[2mms[22m[39m
+[31m   → expected 5 to be +0 // Object.is equality[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mWhat-If Causal Analysis[2m > [22m[2mshould handle unknown actions with neutral recommendation
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould predict negative outcomes for harmful actions[33m 303[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mWhat-If Causal Analysis[2m > [22m[2mshould calculate confidence from evidence count
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould handle unknown actions with neutral recommendation[33m 304[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould predict outcomes with impact description[33m 304[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould identify highly beneficial actions[33m 304[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mSkill Search[2m > [22m[2mshould search for relevant skills
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mSkill Search[2m > [22m[2mshould limit results to k skills
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould calculate confidence from evidence count[33m 307[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mSkill Search[2m > [22mshould search for relevant skills[32m 103[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mStatistics[2m > [22m[2mshould return system statistics
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould identify harmful actions[33m 308[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mSkill Search[2m > [22mshould limit results to k skills[32m 102[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mWASM Fallback[2m > [22m[2mshould gracefully fall back to TypeScript when WASM unavailable
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mStatistics[2m > [22mshould return system statistics[32m 101[2mms[22m[39m
+[90mstderr[2m | tests/reasoningbank/hybrid-backend.test.ts[2m > [22m[2mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Full Workflow[2m > [22m[2mshould support complete reasoning workflow
+[22m[39m[HybridReasoningBank] WASM unavailable, using TypeScript: WASM load failed: Error: "ESM integration proposal for Wasm" is not supported currently. Use vite-plugin-wasm or other community plugins to handle this. Alternatively, you can use `.wasm?init` or `.wasm?url`. See https://vite.dev/guide/features.html#webassembly for more details.
+
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mWASM Fallback[2m > [22mshould gracefully fall back to TypeScript when WASM unavailable[32m 107[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould handle neutral or unknown actions[33m 305[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mIntegration - Full Workflow[2m > [22mshould support complete reasoning workflow[33m 310[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mWhat-If Causal Analysis[2m > [22mshould quantify expected impact[33m 304[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould find and compose relevant skills
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould find and compose relevant skills
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould find and compose relevant skills
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould find and compose relevant skills
+[22m[39m   ✓ Created 3 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould find and compose relevant skills
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 225ms
+  Timestamp: 2026-03-25T21:06:37.344Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 3
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mSkill Composition[2m > [22mshould find and compose relevant skills[33m 538[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould sort skills by quality
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould sort skills by quality
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould sort skills by quality
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould sort skills by quality
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould sort skills by quality
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 208ms
+  Timestamp: 2026-03-25T21:06:37.879Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mSkill Composition[2m > [22mshould sort skills by quality[33m 518[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould create composition plan
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould create composition plan
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould create composition plan
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould create composition plan
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould create composition plan
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 357ms
+  Timestamp: 2026-03-25T21:06:38.396Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mSkill Composition[2m > [22mshould create composition plan[33m 665[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould calculate expected success rate
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould calculate expected success rate
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould calculate expected success rate
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould calculate expected success rate
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould calculate expected success rate
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 633ms
+  Timestamp: 2026-03-25T21:06:39.058Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mSkill Composition[2m > [22mshould calculate expected success rate[33m 938[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould handle task with no relevant skills
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould handle task with no relevant skills
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould handle task with no relevant skills
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould handle task with no relevant skills
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mSkill Composition[2m > [22m[2mshould handle task with no relevant skills
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 940ms
+  Timestamp: 2026-03-25T21:06:39.996Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mSkill Composition[2m > [22mshould handle task with no relevant skills[33m 1245[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould run complete learning cycle
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould run complete learning cycle
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould run complete learning cycle
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould run complete learning cycle
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould run complete learning cycle
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 783ms
+  Timestamp: 2026-03-25T21:06:41.439Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAutomated Learning Cycle[2m > [22mshould run complete learning cycle[33m 1086[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould use optimal consolidation parameters
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould use optimal consolidation parameters
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould use optimal consolidation parameters
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould use optimal consolidation parameters
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mAutomated Learning Cycle[2m > [22m[2mshould use optimal consolidation parameters
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 804ms
+  Timestamp: 2026-03-25T21:06:42.525Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.000
+    • Avg Confidence: 0.000
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+    • Average uplift is low. Review task sequences for optimization opportunities.
+    • Average confidence is below target. Increase sample sizes or refine hypothesis selection.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mAutomated Learning Cycle[2m > [22mshould use optimal consolidation parameters[33m 1107[2mms[22m[39m
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mSystem Statistics[2m > [22mshould return comprehensive statistics[32m 103[2mms[22m[39m
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 816ms
+  Timestamp: 2026-03-25T21:06:43.736Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.825
+    • Avg Confidence: 0.800
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+
+═══════════════════════════════════════════════════════════
+
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m
+🌙 Nightly Learner Starting...
+
+📊 Discovering causal edges from episode patterns...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m   ✓ Discovered 0 new edges
+
+🧪 Completing A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m   ✓ Completed 0 experiments
+
+🔬 Creating new A/B experiments...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m   ✓ Created 0 new experiments
+
+🧹 Pruning low-confidence edges...
+
+[90mstdout[2m | tests/reasoningbank/advanced-memory.test.ts[2m > [22m[2mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22m[2mIntegration - Complete Memory Lifecycle[2m > [22m[2mshould support full memory management workflow
+[22m[39m   ✓ Pruned 0 edges
+
+✅ Nightly Learner Completed
+
+═══════════════════════════════════════════════════════════
+  Nightly Learner Report
+═══════════════════════════════════════════════════════════
+
+  Execution Time: 850ms
+  Timestamp: 2026-03-25T21:06:44.561Z
+
+  Results:
+    • Edges Discovered: 0
+    • Edges Pruned: 0
+    • Experiments Completed: 0
+    • Experiments Created: 0
+
+  Statistics:
+    • Avg Uplift: 0.825
+    • Avg Confidence: 0.800
+
+  Recommendations:
+    • No new causal edges discovered. Consider collecting more diverse episode data.
+
+═══════════════════════════════════════════════════════════
+
+
+ [32m✓[39m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mIntegration - Complete Memory Lifecycle[2m > [22mshould support full memory management workflow[33m 1979[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/swarm/quic-coordinator.test.ts[2m [ tests/swarm/quic-coordinator.test.ts ][22m
+[41m[1m FAIL [22m[49m tests/swarm/transport-router.test.ts[2m [ tests/swarm/transport-router.test.ts ][22m
+[31m[1mError[22m: Do not import `@jest/globals` outside of the Jest test environment[39m
+[90m [2m❯[22m Object.<anonymous> ../node_modules/@jest/globals/build/index.js:[2m12:7[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/21]⎯[22m[39m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 19 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - Imports[2m > [22mshould support new reasoningbank exports
+[31m[1mAssertionError[22m: expected undefined to be defined[39m
+[36m [2m❯[22m tests/backwards-compatibility.test.ts:[2m39:33[22m[39m
+    [90m 37| [39m    } [33m=[39m [35mawait[39m [35mimport[39m([32m'../src/reasoningbank/index.js'[39m)[33m;[39m
+    [90m 38| [39m
+    [90m 39| [39m    [34mexpect[39m([33mHybridReasoningBank[39m)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m   | [39m                                [31m^[39m
+    [90m 40| [39m    [34mexpect[39m([33mAdvancedMemorySystem[39m)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m 41| [39m    [34mexpect[39m([33mReasoningBankEngine[39m)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - API Signatures[2m > [22mshould maintain ReflexionMemory API
+[31m[1mSqliteError[22m: no such table: episodes[39m
+[90m [2m❯[22m Database.prepare ../node_modules/better-sqlite3/lib/methods/wrappers.js:[2m5:21[22m[39m
+[90m [2m❯[22m ReflexionMemory.storeEpisode ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m91:30[22m[39m
+[36m [2m❯[22m tests/backwards-compatibility.test.ts:[2m81:39[22m[39m
+    [90m 79| [39m
+    [90m 80| [39m    [90m// Test old API signature[39m
+    [90m 81| [39m    [35mconst[39m episodeId [33m=[39m [35mawait[39m reflexion[33m.[39m[34mstoreEpisode[39m({
+    [90m   | [39m                                      [31m^[39m
+    [90m 82| [39m      sessionId[33m:[39m [32m'test-session'[39m[33m,[39m
+    [90m 83| [39m      task[33m:[39m [32m'test task'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22m[39m
+[31m[1mSerialized Error:[22m[39m [90m{ code: 'SQLITE_ERROR' }[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - API Signatures[2m > [22mshould maintain HybridReasoningBank API
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.storeEpisode ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m91:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.storePattern src/reasoningbank/HybridBackend.ts:[2m108:44[22m[39m
+[90m [2m❯[22m tests/backwards-compatibility.test.ts:[2m116:32[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/backwards-compatibility.test.ts[2m > [22mBackwards Compatibility - Memory Operations[2m > [22mshould produce consistent results between old and new APIs
+[31m[1mSqliteError[22m: no such table: episodes[39m
+[90m [2m❯[22m Database.prepare ../node_modules/better-sqlite3/lib/methods/wrappers.js:[2m5:21[22m[39m
+[90m [2m❯[22m ReflexionMemory.storeEpisode ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m91:30[22m[39m
+[36m [2m❯[22m tests/backwards-compatibility.test.ts:[2m159:23[22m[39m
+    [90m157| [39m      [35mconst[39m reflexion [33m=[39m [35mnew[39m [33mReflexionMemory[39m(db1[33m,[39m embedder1)[33m;[39m
+    [90m158| [39m
+    [90m159| [39m      [35mawait[39m reflexion[33m.[39m[34mstoreEpisode[39m({
+    [90m   | [39m                      [31m^[39m
+    [90m160| [39m        sessionId[33m:[39m [32m'test'[39m[33m,[39m
+    [90m161| [39m        task[33m:[39m [32m'authentication'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22m[39m
+[31m[1mSerialized Error:[22m[39m [90m{ code: 'SQLITE_ERROR' }[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/advanced-memory.test.ts[2m > [22mAdvancedMemorySystem v1.7.1 - Full Implementation[2m > [22mEpisodic Replay - Learning from Failures[2m > [22mshould handle tasks with no failures
+[31m[1mAssertionError[22m: expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m tests/reasoningbank/advanced-memory.test.ts:[2m302:31[22m[39m
+    [90m300| [39m
+    [90m301| [39m      [34mexpect[39m([33mArray[39m[33m.[39m[34misArray[39m(analyses))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m302| [39m      [34mexpect[39m(analyses[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m303| [39m    })[33m;[39m
+    [90m304| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/hybrid-backend.test.ts[2m > [22mHybridReasoningBank v1.7.1 - Full Implementation[2m > [22mStrategy Learning with Task Statistics[2m > [22mshould handle tasks with no prior experience
+[31m[1mAssertionError[22m: expected 10 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 10[39m
+
+[36m [2m❯[22m tests/reasoningbank/hybrid-backend.test.ts:[2m294:40[22m[39m
+    [90m292| [39m      const strategy = await reasoningBank.learnStrategy('Never seen b…
+    [90m293| [39m
+    [90m294| [39m      [34mexpect[39m(strategy[33m.[39mpatterns[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                                       [31m^[39m
+    [90m295| [39m      [34mexpect[39m(strategy[33m.[39mconfidence)[33m.[39m[34mtoBeLessThan[39m([34m0.5[39m)[33m;[39m
+    [90m296| [39m      [34mexpect[39m(strategy[33m.[39mrecommendation)[33m.[39m[34mtoContain[39m([32m'Limited evidence'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould store a pattern successfully
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.storeEpisode ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m91:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.storePattern src/reasoningbank/HybridBackend.ts:[2m108:44[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m80:34[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould retrieve patterns
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.storeEpisode ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m91:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.storePattern src/reasoningbank/HybridBackend.ts:[2m108:44[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m93:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould perform strategy learning
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.storeEpisode ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m91:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.storePattern src/reasoningbank/HybridBackend.ts:[2m108:44[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m117:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould auto-consolidate patterns
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.storeEpisode ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m91:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.storePattern src/reasoningbank/HybridBackend.ts:[2m108:44[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m169:18[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould search for skills
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould compose skills
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m SkillLibrary.retrieveSkillsLegacy ../node_modules/agentdb/dist/src/controllers/SkillLibrary.js:[2m210:30[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mHybridReasoningBank - Basic Operations[2m > [22mshould return statistics
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m CausalRecall.getStats ../node_modules/agentdb/dist/src/controllers/CausalRecall.js:[2m281:37[22m[39m
+[90m [2m❯[22m HybridReasoningBank.getStats src/reasoningbank/HybridBackend.ts:[2m371:39[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m204:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould run auto-consolidation
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.getTaskStats ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m336:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.autoConsolidate src/reasoningbank/HybridBackend.ts:[2m267:40[22m[39m
+[90m [2m❯[22m AdvancedMemorySystem.autoConsolidate src/reasoningbank/AdvancedMemory.ts:[2m117:48[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m232:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould replay failures
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.retrieveRelevant ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m293:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.retrievePatterns src/reasoningbank/HybridBackend.ts:[2m178:23[22m[39m
+[90m [2m❯[22m AdvancedMemorySystem.replayFailures src/reasoningbank/AdvancedMemory.ts:[2m139:22[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m256:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould run learning cycle
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.getTaskStats ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m336:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.autoConsolidate src/reasoningbank/HybridBackend.ts:[2m267:40[22m[39m
+[90m [2m❯[22m AdvancedMemorySystem.autoConsolidate src/reasoningbank/AdvancedMemory.ts:[2m117:48[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m295:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mAdvancedMemorySystem - High-Level Operations[2m > [22mshould return system statistics
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m CausalRecall.getStats ../node_modules/agentdb/dist/src/controllers/CausalRecall.js:[2m281:37[22m[39m
+[90m [2m❯[22m HybridReasoningBank.getStats src/reasoningbank/HybridBackend.ts:[2m371:39[22m[39m
+[90m [2m❯[22m AdvancedMemorySystem.getStats src/reasoningbank/AdvancedMemory.ts:[2m309:37[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m308:28[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mEnd-to-End Workflow[2m > [22mshould support complete reasoning workflow
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.storeEpisode ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m91:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.storePattern src/reasoningbank/HybridBackend.ts:[2m108:44[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m325:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/reasoningbank/integration.test.ts[2m > [22mReasoningBank v1.7.1 - Integration Tests[2m > [22mEnd-to-End Workflow[2m > [22mshould support advanced memory workflow
+[31m[1mError[22m: Database not initialized[39m
+[36m [2m❯[22m Database.prepare src/db/sql-adapter.ts:[2m43:13[22m[39m
+    [90m 41| [39m  [34mprepare[39m(sql[33m:[39m string) {
+    [90m 42| [39m    [35mif[39m ([33m![39m[35mthis[39m[33m.[39mdb [33m||[39m [33m![39m[35mthis[39m[33m.[39misReady) {
+    [90m 43| [39m      [35mthrow[39m [35mnew[39m [33mError[39m([32m'Database not initialized'[39m)[33m;[39m
+    [90m   | [39m            [31m^[39m
+    [90m 44| [39m    }
+    [90m 45| [39m
+[90m [2m❯[22m ReflexionMemory.getTaskStats ../node_modules/agentdb/dist/src/controllers/ReflexionMemory.js:[2m336:30[22m[39m
+[90m [2m❯[22m HybridReasoningBank.autoConsolidate src/reasoningbank/HybridBackend.ts:[2m267:40[22m[39m
+[90m [2m❯[22m AdvancedMemorySystem.autoConsolidate src/reasoningbank/AdvancedMemory.ts:[2m117:48[22m[39m
+[90m [2m❯[22m tests/reasoningbank/integration.test.ts:[2m369:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/21]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (10)[39m
+[2m      Tests [22m [1m[31m19 failed[39m[22m[2m | [22m[1m[32m80 passed[39m[22m[90m (99)[39m
+[2m   Start at [22m 21:06:30
+[2m   Duration [22m 14.49s[2m (transform 1.19s, setup 0ms, import 1.09s, tests 21.36s, environment 3ms)[22m
+
