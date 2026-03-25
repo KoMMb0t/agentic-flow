@@ -543,7 +543,8 @@ class AgentDBCLI {
     log.header('\n📊 Database Statistics');
 
     const tables = ['causal_edges', 'causal_experiments', 'causal_observations',
-                    'certificates', 'provenance_lineage', 'episodes'];
+                    'certificates', 'provenance_lineage', 'episodes', 'skills',
+                    'episode_embeddings'];
 
     console.log('\n' + '═'.repeat(80));
     tables.forEach(table => {

@@ -23,6 +23,7 @@
     "./agent-booster": "./agentic-flow/dist/agent-booster/index.js",
     "./transport/quic": "./agentic-flow/dist/transport/quic.js",
     "./agentdb": "./agentic-flow/dist/agentdb/index.js",
+    "./embeddings": "./agentic-flow/dist/agentdb/services/embeddings.js",
     "./billing": "./agentic-flow/dist/billing/index.js"
   },
   "scripts": {
@@ -168,7 +169,7 @@
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react-swc": "^4.2.0",
     "@xenova/transformers": "^2.17.2",
-    "agentdb": "^1.4.3",
+    "agentdb": "^3.0.0-alpha.10",
     "agentic-payments": "^0.1.13",
     "autoprefixer": "^10.4.21",
     "axios": "^1.13.0",

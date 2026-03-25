@@ -30,14 +30,13 @@ export function applyAgentDBPatch(): boolean {
     // Find agentdb installation
     const agentdbPath = findAgentDBPath();
     if (!agentdbPath) {
-      console.warn('[AgentDB Patch] Could not locate agentdb installation');
       return false;
     }
 
     const controllerIndexPath = join(agentdbPath, 'dist', 'controllers', 'index.js');
 
     if (!existsSync(controllerIndexPath)) {
-      console.warn(`[AgentDB Patch] Controller index not found: ${controllerIndexPath}`);
+      // AgentDB v3+ removed controllers/index.js — patch not needed
       return false;
     }
 
