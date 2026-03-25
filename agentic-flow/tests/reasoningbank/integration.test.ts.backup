@@ -57,7 +57,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: true });
-      await rb.initialize();  // ✅ Initialize before use
 
       expect(rb).toBeDefined();
       expect(rb.getStats).toBeDefined();
@@ -70,7 +69,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: false });
-      await rb.initialize();  // ✅ Initialize before use
 
       const pattern = {
         sessionId: 'integration-test-1',
@@ -90,7 +88,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: false });
-      await rb.initialize();  // ✅ Initialize before use
 
       // Store a pattern first
       await rb.storePattern({
@@ -115,7 +112,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: false });
-      await rb.initialize();  // ✅ Initialize before use
 
       // Store multiple patterns
       await rb.storePattern({
@@ -148,7 +144,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: false });
-      await rb.initialize();  // ✅ Initialize before use
 
       const insight = await rb.whatIfAnalysis('Add caching');
       expect(insight).toHaveProperty('action');
@@ -168,7 +163,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: false });
-      await rb.initialize();  // ✅ Initialize before use
 
       // Store multiple patterns
       for (let i = 0; i < 3; i++) {
@@ -194,7 +188,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: false });
-      await rb.initialize();  // ✅ Initialize before use
 
       const skills = await rb.searchSkills('API optimization', 5);
       expect(Array.isArray(skills)).toBe(true);
@@ -207,7 +200,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: false });
-      await rb.initialize();  // ✅ Initialize before use
       await rb.initialize();  // ✅ Initialize before use
 
       const stats = rb.getStats();
@@ -225,7 +217,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { AdvancedMemorySystem } = await import('../../src/reasoningbank/AdvancedMemory.js');
       const memory = new AdvancedMemorySystem({ preferWasm: false });
-      await memory.initialize();  // ✅ Initialize before use
 
       expect(memory).toBeDefined();
       expect(memory.getStats).toBeDefined();
@@ -238,7 +229,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { AdvancedMemorySystem } = await import('../../src/reasoningbank/AdvancedMemory.js');
       const memory = new AdvancedMemorySystem({ preferWasm: false });
-      await memory.initialize();  // ✅ Initialize before use
       await memory.initialize();  // ✅ Initialize before use
 
       const result = await memory.autoConsolidate({
@@ -265,7 +255,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
       const { AdvancedMemorySystem } = await import('../../src/reasoningbank/AdvancedMemory.js');
       const memory = new AdvancedMemorySystem({ preferWasm: false });
       await memory.initialize();  // ✅ Initialize before use
-      await memory.initialize();  // ✅ Initialize before use
 
       const analyses = await memory.replayFailures('test task', 5);
       expect(Array.isArray(analyses)).toBe(true);
@@ -278,7 +267,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { AdvancedMemorySystem } = await import('../../src/reasoningbank/AdvancedMemory.js');
       const memory = new AdvancedMemorySystem({ preferWasm: false });
-      await memory.initialize();  // ✅ Initialize before use
 
       const analysis = await memory.whatIfAnalysis('test action');
       expect(analysis).toHaveProperty('action');
@@ -292,7 +280,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { AdvancedMemorySystem } = await import('../../src/reasoningbank/AdvancedMemory.js');
       const memory = new AdvancedMemorySystem({ preferWasm: false });
-      await memory.initialize();  // ✅ Initialize before use
 
       const composition = await memory.composeSkills('test task', 5);
       expect(composition).toHaveProperty('availableSkills');
@@ -307,7 +294,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { AdvancedMemorySystem } = await import('../../src/reasoningbank/AdvancedMemory.js');
       const memory = new AdvancedMemorySystem({ preferWasm: false });
-      await memory.initialize();  // ✅ Initialize before use
 
       const result = await memory.runLearningCycle();
       expect(result).toHaveProperty('executionTimeMs');
@@ -321,7 +307,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { AdvancedMemorySystem } = await import('../../src/reasoningbank/AdvancedMemory.js');
       const memory = new AdvancedMemorySystem({ preferWasm: false });
-      await memory.initialize();  // ✅ Initialize before use
 
       const stats = memory.getStats();
       expect(stats).toHaveProperty('reasoningBank');
@@ -338,7 +323,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { HybridReasoningBank } = await import('../../src/reasoningbank/HybridBackend.js');
       const rb = new HybridReasoningBank({ preferWasm: false });
-      await rb.initialize();  // ✅ Initialize before use
 
       // 1. Store patterns showing improvement
       await rb.storePattern({
@@ -383,7 +367,6 @@ describe('ReasoningBank v1.7.1 - Integration Tests', () => {
 
       const { AdvancedMemorySystem } = await import('../../src/reasoningbank/AdvancedMemory.js');
       const memory = new AdvancedMemorySystem({ preferWasm: false });
-      await memory.initialize();  // ✅ Initialize before use
 
       // 1. Auto-consolidate
       const consolidation = await memory.autoConsolidate({ minUses: 2, minSuccessRate: 0.7 });

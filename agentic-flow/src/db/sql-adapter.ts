@@ -19,10 +19,11 @@ export class Database {
   private db: SqlJsDatabase | null = null;
   private filepath: string;
   private isReady = false;
+  private initPromise: Promise<void> | null = null;
 
   constructor(filepath: string, options?: any) {
     this.filepath = filepath;
-    this.init();
+    this.initPromise = this.init();
   }
 
   private async init() {
@@ -36,6 +37,16 @@ export class Database {
     }
 
     this.isReady = true;
+  }
+
+  /**
+   * Ensure database is initialized
+   * Call this before using the database in async contexts
+   */
+  public async initialize(): Promise<void> {
+    if (this.initPromise) {
+      await this.initPromise;
+    }
   }
 
   prepare(sql: string) {

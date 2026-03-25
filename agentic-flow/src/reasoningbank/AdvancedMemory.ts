@@ -75,6 +75,15 @@ export class AdvancedMemorySystem {
   }
 
   /**
+   * Ensure all components are initialized
+   * MUST be called before using any async methods
+   */
+  public async initialize(): Promise<void> {
+    await this.reasoning.initialize();
+    await this.pool.ensureInitialized();
+  }
+
+  /**
    * Auto-consolidate successful patterns into skills
    *
    * Uses NightlyLearner to:

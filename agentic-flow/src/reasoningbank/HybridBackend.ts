@@ -60,9 +60,11 @@ export class HybridReasoningBank {
   private causalGraph: CausalMemoryGraph;
   private useWasm: boolean;
   private wasmModule: any;
+  private initPromise: Promise<void> | null = null;
 
   constructor(options: { preferWasm?: boolean } = {}) {
     this.memory = SharedMemoryPool.getInstance();
+    this.initPromise = this.memory.ensureInitialized();  // ✅ Store init promise
     const db = this.memory.getDatabase();
     const embedder = this.memory.getEmbedder();
 
@@ -87,6 +89,16 @@ export class HybridReasoningBank {
         console.warn('[HybridReasoningBank] WASM unavailable, using TypeScript:', err.message);
         this.useWasm = false;
       });
+    }
+  }
+
+  /**
+   * Ensure database and services are initialized
+   * MUST be called before using any methods that access the database
+   */
+  public async initialize(): Promise<void> {
+    if (this.initPromise) {
+      await this.initPromise;
     }
   }
 
