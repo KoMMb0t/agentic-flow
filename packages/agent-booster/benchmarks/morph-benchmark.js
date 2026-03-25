@@ -9,7 +9,14 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-const MORPH_API_KEY = 'sk-ifrAh8auI9Gkk2J_Sw9pCR0EGA81zIS5ZqouMesp_AzHKA-M';
+// SECURITY: Never commit API keys. Use environment variables instead.
+const MORPH_API_KEY = process.env.MORPH_API_KEY || '';
+if (!MORPH_API_KEY) {
+  console.error('❌ MORPH_API_KEY environment variable not set');
+  console.error('   Set it with: export MORPH_API_KEY="your-key-here"');
+  process.exit(1);
+}
+
 const MORPH_API_URL = 'https://api.morphllm.com/v1/chat/completions';
 const MODEL = 'morph-v3-fast'; // Using Morph's fast apply model (no prefix)
 

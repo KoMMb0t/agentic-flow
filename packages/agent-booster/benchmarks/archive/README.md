@@ -101,7 +101,7 @@ benchmarks/
 - Output Tokens: 427 (0.43%)
 - Remaining: 488 applies, 299K input, 99.5K output
 
-**API Key:** sk-ifrAh8auI9Gkk2J_Sw9pCR0EGA81zIS5ZqouMesp_AzHKA-M
+**API Key:** Set via `MORPH_API_KEY` environment variable (never commit keys!)
 
 ---
 
