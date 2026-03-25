@@ -33,10 +33,16 @@ export function applyAgentDBPatch(): boolean {
       return false;
     }
 
-    const controllerIndexPath = join(agentdbPath, 'dist', 'controllers', 'index.js');
+    // Try both v2 and v3 paths
+    let controllerIndexPath = join(agentdbPath, 'dist', 'controllers', 'index.js');
+
+    // AgentDB v3+ has controllers at dist/src/controllers/
+    if (!existsSync(controllerIndexPath)) {
+      controllerIndexPath = join(agentdbPath, 'dist', 'src', 'controllers', 'index.js');
+    }
 
     if (!existsSync(controllerIndexPath)) {
-      // AgentDB v3+ removed controllers/index.js — patch not needed
+      // No controllers index found — patch not needed
       return false;
     }
 
