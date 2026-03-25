@@ -33,12 +33,12 @@ describe('Backwards Compatibility - Imports', () => {
     const {
       HybridReasoningBank,
       AdvancedMemorySystem,
-      ReasoningBankEngine
+      ReasoningBank
     } = await import('../src/reasoningbank/index.js');
 
     expect(HybridReasoningBank).toBeDefined();
     expect(AdvancedMemorySystem).toBeDefined();
-    expect(ReasoningBankEngine).toBeDefined();
+    expect(ReasoningBank).toBeDefined();
   });
 
   it('should support shared memory pool', async () => {
@@ -68,6 +68,32 @@ describe('Backwards Compatibility - API Signatures', () => {
     const { EmbeddingService, ReflexionMemory } = await import('../src/agentdb/index.js');
 
     const db = new Database(testDbPath);
+
+    // Create episodes table schema
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS episodes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id TEXT NOT NULL,
+        task TEXT NOT NULL,
+        input TEXT,
+        output TEXT,
+        critique TEXT,
+        reward REAL NOT NULL,
+        success INTEGER NOT NULL,
+        latency_ms INTEGER,
+        tokens_used INTEGER,
+        tags TEXT,
+        metadata TEXT,
+        created_at INTEGER DEFAULT (strftime('%s', 'now'))
+      );
+
+      CREATE TABLE IF NOT EXISTS episode_embeddings (
+        episode_id INTEGER PRIMARY KEY,
+        embedding BLOB NOT NULL,
+        FOREIGN KEY (episode_id) REFERENCES episodes(id)
+      );
+    `);
+
     const embedder = new EmbeddingService({
       model: 'Xenova/all-MiniLM-L6-v2',
       dimension: 384,
@@ -111,6 +137,7 @@ describe('Backwards Compatibility - API Signatures', () => {
     SharedMemoryPool.resetInstance();
 
     const rb = new HybridReasoningBank({ preferWasm: false });
+    await rb.initialize();  // ✅ Initialize before use
 
     // Test pattern storage
     const patternId = await rb.storePattern({
@@ -148,6 +175,32 @@ describe('Backwards Compatibility - Memory Operations', () => {
     try {
       // Old API
       const db1 = new Database(testDbPath1);
+
+      // Create episodes table schema
+      db1.exec(`
+        CREATE TABLE IF NOT EXISTS episodes (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          session_id TEXT NOT NULL,
+          task TEXT NOT NULL,
+          input TEXT,
+          output TEXT,
+          critique TEXT,
+          reward REAL NOT NULL,
+          success INTEGER NOT NULL,
+          latency_ms INTEGER,
+          tokens_used INTEGER,
+          tags TEXT,
+          metadata TEXT,
+          created_at INTEGER DEFAULT (strftime('%s', 'now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS episode_embeddings (
+          episode_id INTEGER PRIMARY KEY,
+          embedding BLOB NOT NULL,
+          FOREIGN KEY (episode_id) REFERENCES episodes(id)
+        );
+      `);
+
       const embedder1 = new EmbeddingService({
         model: 'Xenova/all-MiniLM-L6-v2',
         dimension: 384,
@@ -179,6 +232,8 @@ describe('Backwards Compatibility - Memory Operations', () => {
       await pool.ensureInitialized();
 
       const rb = new HybridReasoningBank({ preferWasm: false });
+      await rb.initialize();  // ✅ Initialize before use
+
       await rb.storePattern({
         sessionId: 'test',
         task: 'authentication',
