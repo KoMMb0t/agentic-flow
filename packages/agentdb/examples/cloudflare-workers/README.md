@@ -30,11 +30,12 @@ wrangler kv:namespace create CACHE
 # Update wrangler.toml with the KV namespace ID
 ```
 
-### 3. Build AgentDB for Workers
+### 3. Build AgentDB for Edge Deployment
 
 ```bash
 cd ../..
-npm run build:workers
+npm run build:edge
+# This creates: dist/workers/agentdb.workers.js, dist/browser/, dist/deno/
 ```
 
 ### 4. Deploy
@@ -111,11 +112,13 @@ curl https://agentdb-worker.your-subdomain.workers.dev/stats
 ## Cost Estimation
 
 **Free Tier:**
+
 - 100,000 requests/day
 - 10ms CPU time per request
 - 128MB memory per Durable Object
 
 **Paid Tier:**
+
 - $0.50 per million requests
 - $12.50 per million CPU ms
 - Durable Objects: $0.15 per million reads/writes
@@ -139,14 +142,17 @@ Example: 1M searches/month ≈ $2-5/month
 ## Troubleshooting
 
 **Error: "Exceeded CPU time limit"**
+
 - Reduce batch size or sequence length
 - Enable Flash Attention v2 for faster inference
 
 **Error: "WASM module failed to load"**
+
 - Verify bundle size is <25MB
 - Check wrangler.toml build configuration
 
 **Error: "Durable Object not found"**
+
 - Run migration: `wrangler publish --new-class AgentDBDurableObject`
 
 ## Resources

@@ -23,7 +23,7 @@ id = "your-kv-namespace-id" # Replace with actual KV namespace ID
 
 # Build configuration
 [build]
-command = "npm run build:workers"
+command = "cd ../.. && npm run build:edge"
 
 # Environment variables
 [vars]

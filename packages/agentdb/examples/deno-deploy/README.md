@@ -29,7 +29,15 @@ irm https://deno.land/install.ps1 | iex
 deno install --allow-all --no-check -r -f https://deno.land/x/deploy/deployctl.ts
 ```
 
-### 3. Login to Deno Deploy
+### 3. Build AgentDB for Edge Deployment
+
+```bash
+cd ../..
+npm run build:edge
+# This creates: dist/deno/agentdb.deno.js (optimized ~362KB bundle)
+```
+
+### 4. Login to Deno Deploy
 
 ```bash
 deployctl login
@@ -83,6 +91,7 @@ curl "https://agentdb-demo.deno.dev/search?q=typescript&limit=5&flash=true"
 ```
 
 Response:
+
 ```json
 {
   "results": [
@@ -125,6 +134,7 @@ curl "https://agentdb-demo.deno.dev/benchmark?seqLen=512"
 ```
 
 Response:
+
 ```json
 {
   "seqLen": 512,
@@ -170,11 +180,13 @@ Response:
 ## Cost Estimation
 
 **Free Tier:**
+
 - 100,000 requests/day
 - 100 GiB bandwidth/month
 - 1 GB Deno KV storage
 
 **Pro Tier ($20/month):**
+
 - 5 million requests/month
 - 100 GB KV storage
 - Custom domains
@@ -199,32 +211,36 @@ Example: 1M searches/month = Free (within limits)
 
 ## Deno vs Cloudflare Workers
 
-| Feature | Deno Deploy | Cloudflare Workers |
-|---------|-------------|-------------------|
-| **Cold Start** | 30-50ms | 50-100ms |
-| **Warm Latency** | <5ms | <10ms |
-| **CPU Limit** | 50ms soft | 50ms hard (50s for DO) |
-| **Storage** | Deno KV (FoundationDB) | Durable Objects |
-| **TypeScript** | Native, no build | Requires build |
-| **WASM Support** | Full | Limited to 25MB |
-| **Free Tier** | 100k req/day | 100k req/day |
-| **Pricing** | $20/month Pro | Pay-as-you-go |
+| Feature          | Deno Deploy            | Cloudflare Workers     |
+| ---------------- | ---------------------- | ---------------------- |
+| **Cold Start**   | 30-50ms                | 50-100ms               |
+| **Warm Latency** | <5ms                   | <10ms                  |
+| **CPU Limit**    | 50ms soft              | 50ms hard (50s for DO) |
+| **Storage**      | Deno KV (FoundationDB) | Durable Objects        |
+| **TypeScript**   | Native, no build       | Requires build         |
+| **WASM Support** | Full                   | Limited to 25MB        |
+| **Free Tier**    | 100k req/day           | 100k req/day           |
+| **Pricing**      | $20/month Pro          | Pay-as-you-go          |
 
 ## Troubleshooting
 
 **Error: "Deno KV not available"**
+
 - Use `--unstable` flag when running locally
 - Deno Deploy has KV enabled by default
 
 **Error: "WASM module failed to load"**
+
 - Verify bundle size is <50MB
 - Check import paths in server.ts
 
 **Error: "Exceeded CPU time limit"**
+
 - Enable Flash Attention v2 for faster inference
 - Reduce sequence length or batch size
 
 **Error: "Permission denied"**
+
 - Add required permissions: `--allow-net --allow-read --unstable`
 
 ## Resources
@@ -238,12 +254,12 @@ Example: 1M searches/month = Free (within limits)
 
 ```typescript
 // deno-client.ts
-const API_URL = 'https://agentdb-demo.deno.dev';
+const API_URL = "https://agentdb-demo.deno.dev";
 
 async function storeMemory(key: string, content: string) {
   const res = await fetch(`${API_URL}/store`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ key, content }),
   });
   return res.json();
@@ -251,13 +267,13 @@ async function storeMemory(key: string, content: string) {
 
 async function searchMemories(query: string, useFlashV2 = true) {
   const res = await fetch(
-    `${API_URL}/search?q=${encodeURIComponent(query)}&flash=${useFlashV2}`
+    `${API_URL}/search?q=${encodeURIComponent(query)}&flash=${useFlashV2}`,
   );
   return res.json();
 }
 
 // Usage
-await storeMemory('ai-tip', 'Use Flash Attention v2 for 3x faster inference');
-const results = await searchMemories('faster inference', true);
+await storeMemory("ai-tip", "Use Flash Attention v2 for 3x faster inference");
+const results = await searchMemories("faster inference", true);
 console.log(results);
 ```

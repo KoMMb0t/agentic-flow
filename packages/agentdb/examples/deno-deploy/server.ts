@@ -72,7 +72,7 @@ async function handler(req: Request): Promise<Response> {
     return new Response(
       JSON.stringify({
         status: 'ok',
-        version: '3.0.0-alpha.3',
+        version: '3.0.0-alpha.4',
         runtime: 'deno',
         denoVersion: Deno.version.deno,
       }),

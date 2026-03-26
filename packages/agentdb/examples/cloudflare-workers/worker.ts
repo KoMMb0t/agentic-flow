@@ -24,12 +24,12 @@ export interface Env {
  * Main Worker - handles HTTP requests
  */
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
     // Health check
     if (url.pathname === '/health') {
-      return new Response(JSON.stringify({ status: 'ok', version: '3.0.0-alpha.3' }), {
+      return new Response(JSON.stringify({ status: 'ok', version: '3.0.0-alpha.4' }), {
         headers: { 'Content-Type': 'application/json' },
       });
     }
@@ -50,7 +50,7 @@ export class AgentDBDurableObject {
   private db: AgentDB | null = null;
   private state: DurableObjectState;
 
-  constructor(state: DurableObjectState, env: Env) {
+  constructor(state: DurableObjectState, _env: Env) {
     this.state = state;
   }
 
