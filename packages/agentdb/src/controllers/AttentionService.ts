@@ -17,10 +17,36 @@
  */
 
 /**
+ * NAPI Attention Module Interface
+ */
+interface NAPIAttentionModule {
+  multiHeadAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, mask?: Float32Array): { output: Float32Array; weights?: Float32Array };
+  flashAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, mask?: Float32Array): Float32Array;
+  flashAttentionV2?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, options: any): { output: Float32Array; speedup?: number; baselineTimeMs?: number };
+  linearAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number): Float32Array;
+  hyperbolicAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, curvature: number): Float32Array;
+  moeAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, numExperts: number, topK: number, mask?: Float32Array): Float32Array;
+}
+
+/**
+ * WASM Attention Module Interface
+ */
+interface WASMAttentionModule {
+  default(): Promise<void>;
+  dispose?(): Promise<void>;
+  multiHeadAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, mask?: Float32Array): { output: Float32Array; weights?: Float32Array };
+  flashAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, mask?: Float32Array): Float32Array;
+  flashAttentionV2?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, options: any): { output: Float32Array; speedup?: number; baselineTimeMs?: number };
+  linearAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number): Float32Array;
+  hyperbolicAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, curvature: number): Float32Array;
+  moeAttention?(query: Float32Array, key: Float32Array, value: Float32Array, numHeads: number, headDim: number, numExperts: number, topK: number, mask?: Float32Array): Float32Array;
+}
+
+/**
  * Global WASM instance cache (shared across all AttentionService instances)
  * Prevents re-initialization overhead (2-5s → <10ms cold start)
  */
-const wasmInstanceCache = new Map<string, any>();
+const wasmInstanceCache = new Map<string, WASMAttentionModule>();
 
 /**
  * Configuration for attention mechanisms
@@ -133,8 +159,8 @@ export class AttentionService {
 
   private config: AttentionConfig;
   private runtime: RuntimeEnvironment;
-  private napiModule: any = null;
-  private wasmModule: any = null;
+  private napiModule: NAPIAttentionModule | null = null;
+  private wasmModule: WASMAttentionModule | null = null;
   private initialized: boolean = false;
   private initPromise: Promise<void> | null = null;
   private warmedUp: boolean = false;
@@ -1120,6 +1146,37 @@ export class AttentionService {
       mechanismCounts: {},
       runtimeCounts: {}
     };
+  }
+
+  /**
+   * Dispose of resources and clean up
+   * Call this when AttentionService is no longer needed
+   */
+  async dispose(): Promise<void> {
+    // Clean up WASM modules if they have dispose methods
+    if (this.wasmModule && typeof this.wasmModule.dispose === 'function') {
+      await this.wasmModule.dispose();
+    }
+
+    // Clear all performance entries
+    performance.clearMarks();
+    performance.clearMeasures();
+
+    // Clear caches
+    this.bufferPool.clear();
+    this.maskCache.clear();
+
+    // Reset state
+    this.initialized = false;
+    this.warmedUp = false;
+    this.initPromise = null;
+    this.napiModule = null;
+    this.wasmModule = null;
+
+    // Reset stats
+    this.resetStats();
+
+    console.log('✅ AttentionService disposed');
   }
 
   /**
