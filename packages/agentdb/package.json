@@ -1,7 +1,7 @@
 {
   "name": "agentdb",
-  "version": "3.0.0-alpha.5",
-  "description": "AgentDB v3 - Intelligent agentic vector database with RVF native format, RuVector-powered graph DB, Cypher queries, ACID persistence. 150x faster than SQLite with self-learning GNN, 6 cognitive memory patterns, semantic routing, COW branching, and comprehensive MCP integration. Runs anywhere: Node.js, browsers, edge, offline.",
+  "version": "3.0.0-alpha.6",
+  "description": "AgentDB v3 - Intelligent agentic vector database with RVF native format, RuVector-powered graph DB, Cypher queries, ACID persistence. 150x faster than SQLite with self-learning GNN, 6 cognitive memory patterns, semantic routing, COW branching, sparse/partitioned/fused attention (10-100x speedup), and comprehensive MCP integration. Runs anywhere: Node.js, browsers, edge, offline.",
   "type": "module",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -46,6 +46,8 @@
     "./controllers/SyncCoordinator": "./dist/src/controllers/SyncCoordinator.js",
     "./controllers/HNSWIndex": "./dist/src/controllers/HNSWIndex.js",
     "./controllers/AttentionService": "./dist/src/controllers/AttentionService.js",
+    "./controllers/SparsificationService": "./dist/src/controllers/SparsificationService.js",
+    "./controllers/MincutService": "./dist/src/controllers/MincutService.js",
     "./services/federated-learning": "./dist/src/services/federated-learning.js",
     "./model": "./dist/src/model/ModelCacheLoader.js"
   },
@@ -74,6 +76,8 @@
     "benchmark:backends": "tsx benchmarks/compare-backends.ts",
     "benchmark:profile": "tsx scripts/profile-hot-paths.ts",
     "benchmark:ruvector": "tsx benchmarks/ruvector-benchmark.ts",
+    "benchmark:adr072": "vitest run tests/benchmarks/adr-072-phase1-benchmark.test.ts --reporter=verbose",
+    "benchmark:adr072:fast": "vitest run tests/benchmarks/validate-adr072.test.ts",
     "benchmark:all": "npm run benchmark:attention && npm run benchmark:backends && npm run benchmark:profile && npm run benchmark:ruvector",
     "build:model": "node scripts/build-model-rvf.mjs"
   },

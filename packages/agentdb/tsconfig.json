@@ -33,7 +33,8 @@
     "simulation/**/*",
     "simulation/scenarios/**/*",
     "benchmarks/**/*",
-    "examples/**/*"
+    "examples/**/*",
+    "tests/**/*"
   ],
   "exclude": [
     "node_modules",
