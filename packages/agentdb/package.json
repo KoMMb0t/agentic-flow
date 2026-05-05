@@ -1,7 +1,7 @@
 {
   "name": "agentdb",
-  "version": "3.0.0-alpha.3",
-  "description": "AgentDB v3 - Intelligent agentic vector database with RVF native format, RuVector-powered graph DB, Cypher queries, ACID persistence. 150x faster than SQLite with self-learning GNN, 6 cognitive memory patterns, semantic routing, COW branching, and comprehensive MCP integration. Runs anywhere: Node.js, browsers, edge, offline.",
+  "version": "3.0.0-alpha.12",
+  "description": "AgentDB v3 - Intelligent agentic vector database with RVF native format, RuVector-powered graph DB, Cypher queries, ACID persistence. 150x faster than SQLite with self-learning GNN, 6 cognitive memory patterns, semantic routing, COW branching, sparse/partitioned/fused attention (10-100x speedup), and comprehensive MCP integration. Runs anywhere: Node.js, browsers, edge, offline.",
   "type": "module",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -46,6 +46,8 @@
     "./controllers/SyncCoordinator": "./dist/src/controllers/SyncCoordinator.js",
     "./controllers/HNSWIndex": "./dist/src/controllers/HNSWIndex.js",
     "./controllers/AttentionService": "./dist/src/controllers/AttentionService.js",
+    "./controllers/SparsificationService": "./dist/src/controllers/SparsificationService.js",
+    "./controllers/MincutService": "./dist/src/controllers/MincutService.js",
     "./services/federated-learning": "./dist/src/services/federated-learning.js",
     "./model": "./dist/src/model/ModelCacheLoader.js"
   },
@@ -54,6 +56,7 @@
     "build:ts": "tsc",
     "copy:schemas": "mkdir -p dist/schemas && cp src/schemas/*.sql dist/schemas/",
     "build:browser": "node scripts/build-browser.js && node scripts/build-browser-v2.js",
+    "build:edge": "node scripts/build-browser.config.js",
     "build:napi": "bash scripts/optimize-napi.sh",
     "build:wasm": "bash scripts/optimize-wasm.sh",
     "build:optimized": "npm run build:napi && npm run build:wasm && npm run build",
@@ -73,6 +76,8 @@
     "benchmark:backends": "tsx benchmarks/compare-backends.ts",
     "benchmark:profile": "tsx scripts/profile-hot-paths.ts",
     "benchmark:ruvector": "tsx benchmarks/ruvector-benchmark.ts",
+    "benchmark:adr072": "vitest run tests/benchmarks/adr-072-phase1-benchmark.test.ts --reporter=verbose",
+    "benchmark:adr072:fast": "vitest run tests/benchmarks/validate-adr072.test.ts",
     "benchmark:all": "npm run benchmark:attention && npm run benchmark:backends && npm run benchmark:profile && npm run benchmark:ruvector",
     "build:model": "node scripts/build-model-rvf.mjs"
   },
@@ -108,15 +113,20 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.1",
     "@opentelemetry/api": "^1.9.0",
+    "@ruvector/graph-transformer": "^2.0.4",
     "ajv": "^8.18.0",
     "jsonwebtoken": "^9.0.2",
     "sql.js": "^1.13.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.10.2",
+    "@types/uuid": "^11.0.0",
     "dotenv": "^16.4.7",
     "esbuild": "^0.25.11",
+    "http-server": "^14.1.1",
+    "playwright": "^1.58.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vitest": "^4.0.15"
@@ -154,7 +164,8 @@
     "hnswlib-node": "^3.0.0",
     "inquirer": "^9.3.8",
     "ruvector": "^0.1.30",
-    "ruvector-attention-wasm": "^0.1.0"
+    "ruvector-attention-wasm": "^0.1.32",
+    "ruvector-graph-transformer-wasm": "^2.0.4"
   },
   "overrides": {
     "@xenova/transformers": {
