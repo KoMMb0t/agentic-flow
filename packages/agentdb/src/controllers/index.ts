@@ -17,6 +17,8 @@ export { QUICServer } from './QUICServer.js';
 export { QUICClient } from './QUICClient.js';
 export { SyncCoordinator } from './SyncCoordinator.js';
 export { AttentionService } from './AttentionService.js';
+export { SparsificationService } from './SparsificationService.js';
+export { MincutService } from './MincutService.js';
 
 // Memory Controller with Attention Integration
 export { MemoryController } from './MemoryController.js';
@@ -39,6 +41,16 @@ export type { QUICServerConfig, SyncRequest, SyncResponse } from './QUICServer.j
 export type { QUICClientConfig, SyncOptions, SyncResult, SyncProgress } from './QUICClient.js';
 export type { SyncCoordinatorConfig, SyncState, SyncReport } from './SyncCoordinator.js';
 export type { AttentionConfig, AttentionResult, AttentionStats } from './AttentionService.js';
+export type {
+  GraphEdges,
+  SparsificationConfig,
+  SparsificationResult
+} from './SparsificationService.js';
+export type {
+  MincutConfig,
+  MincutResult,
+  Partition
+} from './MincutService.js';
 
 // MemoryController types
 export type {
