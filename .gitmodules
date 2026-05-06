@@ -1,3 +1,4 @@
-[submodule "packages/agentdb/packages/ruvector-upstream"]
-	path = packages/agentdb/packages/ruvector-upstream
-	url = https://github.com/ruvnet/ruvector.git
+[submodule "packages/agentdb"]
+	path = packages/agentdb
+	url = https://github.com/ruvnet/agentdb.git
+	branch = main
