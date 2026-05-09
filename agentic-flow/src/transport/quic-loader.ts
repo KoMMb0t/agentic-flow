@@ -202,12 +202,24 @@ class WebSocketFallbackTransport implements AgentTransport {
   }
 
   async close(): Promise<void> {
+    // Outbound clients first.
     for (const ws of this.connections.values()) {
-      ws.close();
+      ws.terminate();
     }
     this.connections.clear();
     this.messageQueue.clear();
+
+    // Inbound: WebSocketServer.close() blocks until every accepted
+    // socket disconnects. Forcibly terminate them so the close
+    // callback fires within the test/CI timeout window.
     for (const wss of this.servers.values()) {
+      for (const client of wss.clients) {
+        try {
+          client.terminate();
+        } catch {
+          /* socket already gone */
+        }
+      }
       await new Promise<void>((resolve) => wss.close(() => resolve()));
     }
     this.servers.clear();
