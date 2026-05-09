@@ -23,7 +23,8 @@
     "./router": "./dist/router/index.js",
     "./agent-booster": "./dist/agent-booster/index.js",
     "./transport/quic": "./dist/transport/quic.js",
-    "./embeddings": "./dist/embeddings/index.js"
+    "./embeddings": "./dist/embeddings/index.js",
+    "./transport/loader": "./dist/transport/quic-loader.js"
   },
   "scripts": {
     "postinstall": "node scripts/postinstall.js || true",
@@ -169,7 +170,7 @@
     "ruvector-onnx-embeddings-wasm": "^0.1.2",
     "tiktoken": "^1.0.22",
     "ulid": "^3.0.1",
-    "ws": "^8.18.3",
+    "ws": "^8.20.0",
     "yaml": "^2.8.1",
     "zod": "^3.25.76"
   },
