@@ -45,6 +45,12 @@ export interface PoolStatistics {
   closed: number;
 }
 
+/** Inbound message handler — called for every received message. */
+export type InboundMessageHandler = (
+  address: string,
+  message: AgentMessage,
+) => void | Promise<void>;
+
 /** Common interface both real-QUIC and fallback transports satisfy. */
 export interface AgentTransport {
   send(address: string, message: AgentMessage): Promise<void>;
@@ -53,6 +59,18 @@ export interface AgentTransport {
   sendBatch(address: string, messages: AgentMessage[]): Promise<void>;
   getStats(): Promise<PoolStatistics>;
   close(): Promise<void>;
+  /**
+   * Subscribe to inbound messages. The handler fires for every message
+   * received by this transport (both server-side accepted connections
+   * and client-side receive callbacks). Multiple handlers may be
+   * registered. Errors thrown by a handler are logged but do not stop
+   * delivery to other handlers.
+   *
+   * Optional method — implementations that don't support push-style
+   * delivery may omit it. Callers should use `transport.onMessage?.(h)`
+   * to gracefully degrade.
+   */
+  onMessage?(handler: InboundMessageHandler): void;
 }
 
 /**
@@ -75,6 +93,12 @@ class WebSocketFallbackTransport implements AgentTransport {
   private connectionsCreated = 0;
   private connectionsClosed = 0;
   private servers = new Map<number, WebSocketServer>();
+  /**
+   * Inbound handlers registered via onMessage. Fired for every received
+   * message after it lands in the per-address queue (queue stays for the
+   * receive() poll API; handlers add push-style delivery on top).
+   */
+  private inboundHandlers = new Set<InboundMessageHandler>();
 
   constructor(private readonly config: Required<QuicTransportConfig>) {}
 
@@ -112,6 +136,7 @@ class WebSocketFallbackTransport implements AgentTransport {
             const queue = this.messageQueue.get(remoteAddr) ?? [];
             queue.push(message);
             this.messageQueue.set(remoteAddr, queue);
+            this.dispatchInbound(remoteAddr, message);
           } catch (err) {
             logger.warn('Dropped malformed inbound WS message', { remoteAddr, err });
           }
@@ -154,6 +179,7 @@ class WebSocketFallbackTransport implements AgentTransport {
           const queue = this.messageQueue.get(address) ?? [];
           queue.push(message);
           this.messageQueue.set(address, queue);
+          this.dispatchInbound(address, message);
         } catch (err) {
           logger.warn('Dropped malformed WebSocket message', { address, err });
         }
@@ -164,6 +190,39 @@ class WebSocketFallbackTransport implements AgentTransport {
   async send(address: string, message: AgentMessage): Promise<void> {
     const ws = await this.getOrCreateConnection(address);
     ws.send(JSON.stringify(message));
+  }
+
+  /**
+   * Register an inbound handler. Returns nothing; handlers are
+   * de-duplicated by reference (registering the same function twice
+   * has no effect). To unregister, the caller would need to keep the
+   * reference and call `set.delete(handler)` — exposed via a separate
+   * helper if needed in the future.
+   */
+  onMessage(handler: InboundMessageHandler): void {
+    this.inboundHandlers.add(handler);
+  }
+
+  /**
+   * Fire all registered handlers for a received message. Errors thrown
+   * synchronously OR rejected asynchronously by a handler are logged
+   * but do not stop delivery to other handlers — push-style delivery is
+   * fire-and-forget per-handler.
+   */
+  private dispatchInbound(address: string, message: AgentMessage): void {
+    if (this.inboundHandlers.size === 0) return;
+    for (const h of this.inboundHandlers) {
+      try {
+        const r = h(address, message);
+        if (r && typeof (r as Promise<void>).catch === 'function') {
+          (r as Promise<void>).catch((err) => {
+            logger.warn('Inbound handler rejected', { address, err });
+          });
+        }
+      } catch (err) {
+        logger.warn('Inbound handler threw', { address, err });
+      }
+    }
   }
 
   async receive(address: string): Promise<AgentMessage> {

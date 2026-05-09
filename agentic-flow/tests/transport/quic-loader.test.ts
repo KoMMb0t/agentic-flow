@@ -127,6 +127,51 @@ describe('WebSocketFallbackTransport — real I/O round-trip', () => {
     const stats = await srv.getStats();
     expect(stats).toBeDefined();
   });
+
+  it('onMessage handler fires on inbound delivery', async () => {
+    srv = await WebSocketFallbackTransport.create({ serverName: 'srv' });
+    await srv.listen(TEST_PORT + 4, '127.0.0.1');
+
+    const received: AgentMessage[] = [];
+    srv.onMessage((_addr, msg) => {
+      received.push(msg);
+    });
+
+    cli = await loadQuicTransport({ serverName: 'cli' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 4}`, {
+      id: 'on-msg-1',
+      type: 'task',
+      payload: { hello: 'inbound' },
+    });
+
+    // Wait for the WS roundtrip
+    await new Promise((r) => setTimeout(r, 200));
+    expect(received).toHaveLength(1);
+    expect(received[0].id).toBe('on-msg-1');
+    expect(received[0].payload).toEqual({ hello: 'inbound' });
+  });
+
+  it('multiple onMessage handlers all fire, errors are isolated', async () => {
+    srv = await WebSocketFallbackTransport.create({ serverName: 'srv' });
+    await srv.listen(TEST_PORT + 5, '127.0.0.1');
+
+    const goodReceived: AgentMessage[] = [];
+    srv.onMessage((_addr, msg) => { goodReceived.push(msg); });
+    srv.onMessage(() => { throw new Error('handler intentionally throws'); });
+    srv.onMessage(async () => { throw new Error('async rejector'); });
+
+    cli = await loadQuicTransport({ serverName: 'cli' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 5}`, {
+      id: 'multi-h-1',
+      type: 'task',
+      payload: {},
+    });
+
+    await new Promise((r) => setTimeout(r, 200));
+    // Good handler still got the message — error in another handler
+    // doesn't stop fan-out.
+    expect(goodReceived).toHaveLength(1);
+  });
 });
 
 describe('loadQuicTransport — selection contract', () => {
