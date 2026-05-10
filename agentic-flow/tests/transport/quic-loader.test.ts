@@ -174,6 +174,46 @@ describe('WebSocketFallbackTransport — real I/O round-trip', () => {
   });
 });
 
+describe('TLS config (ADR-107)', () => {
+  it('config.tls is optional + defaults to {} (backward compat)', async () => {
+    // Just creating without tls field MUST not throw — proves the
+    // existing ws:// callers still work.
+    const t = await WebSocketFallbackTransport.create({ serverName: 'compat' });
+    await t.close();
+  });
+
+  it('accepts pinnedFingerprints config without error (wss path not exercised here)', async () => {
+    const t = await WebSocketFallbackTransport.create({
+      serverName: 'pinned',
+      tls: { pinnedFingerprints: ['sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='] },
+    });
+    await t.close();
+  });
+
+  it('accepts caPath config without error', async () => {
+    const t = await WebSocketFallbackTransport.create({
+      serverName: 'ca',
+      tls: { caPath: '/etc/ssl/cert.pem' },
+    });
+    await t.close();
+  });
+
+  it('ws:// URL with pinning config: pinning silently ignored (no wss to pin)', async () => {
+    // The pinning code path checks isWss BEFORE applying. Confirms a
+    // misconfig (pinning + ws://) doesn't break plain ws.
+    const srv = await WebSocketFallbackTransport.create({ serverName: 'srv' });
+    await srv.listen(24201, '127.0.0.1');
+    const cli = await WebSocketFallbackTransport.create({
+      serverName: 'cli',
+      tls: { pinnedFingerprints: ['sha256/wrong'] },
+    });
+    // ws:// connect should still succeed despite the (irrelevant) pinning config
+    await cli.send('127.0.0.1:24201', { id: 'p', type: 'task', payload: {} });
+    await cli.close();
+    await srv.close();
+  });
+});
+
 describe('loadQuicTransport — selection contract', () => {
   it('returns a transport with the AgentTransport interface', async () => {
     const t = await loadQuicTransport();

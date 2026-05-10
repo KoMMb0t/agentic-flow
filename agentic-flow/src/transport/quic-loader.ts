@@ -142,6 +142,7 @@ class WebSocketFallbackTransport implements AgentTransport {
       maxConcurrentStreams: config.maxConcurrentStreams ?? 100,
       // Not applicable for WebSocket — record but ignore
       enable0Rtt: config.enable0Rtt ?? false,
+      tls: config.tls ?? {},
     };
     return new WebSocketFallbackTransport(fullConfig);
   }
@@ -247,7 +248,15 @@ class WebSocketFallbackTransport implements AgentTransport {
         // CA path validation is irrelevant — the fingerprint IS the trust
         // anchor. If the cert rotates, the operator must update config.
         const pinned = new Set(tls.pinnedFingerprints);
-        wsOpts.checkServerIdentity = (_host, cert) => {
+        // Cast: ws's `checkServerIdentity` is typed as returning boolean
+        // but the underlying `tls.checkServerIdentity` (which it
+        // forwards to) accepts `Error | undefined`. The runtime
+        // semantics are: throw OR return Error → reject; otherwise accept.
+        // The boolean type signature is overly restrictive.
+        (wsOpts as unknown as { checkServerIdentity: unknown }).checkServerIdentity = (
+          _host: string,
+          cert: { raw: Buffer },
+        ): Error | undefined => {
           // cert.raw is the DER-encoded cert bytes; sha256/<base64> matches
           // common pinning notation (and what `openssl x509 -fingerprint
           // -sha256` outputs after base64-encoding).
