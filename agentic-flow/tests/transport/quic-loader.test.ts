@@ -16,6 +16,7 @@ import {
   getTransportCapabilities,
   isQuicAvailable,
   WebSocketFallbackTransport,
+  DEFAULT_STREAM_ID,
   type AgentTransport,
   type AgentMessage,
 } from '../../src/transport/quic-loader.js';
