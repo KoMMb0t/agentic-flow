@@ -118,11 +118,26 @@ class WebSocketFallbackTransport implements AgentTransport {
    * messages from a remote peer (in addition to sending). Federation
    * peers run BOTH a listener and a client — calling listen(9100) plus
    * send('peer:9100', ...) gives bidirectional connectivity.
+   *
+   * Enables `permessage-deflate` compression with thresholds chosen
+   * for federation envelopes (typically JSON, 100B-10KB):
+   *   - threshold: 256B — don't waste CPU compressing tiny pings
+   *   - level: 3 — balanced compression vs CPU (zlib's BEST_SPEED→6 range)
+   *   - serverNoContextTakeover: true — bound per-conn memory growth
    */
   async listen(port: number, host = '0.0.0.0'): Promise<void> {
     if (this.servers.has(port)) return;
     return new Promise((resolve, reject) => {
-      const wss = new WebSocketServer({ port, host });
+      const wss = new WebSocketServer({
+        port,
+        host,
+        perMessageDeflate: {
+          threshold: 256,
+          zlibDeflateOptions: { level: 3 },
+          serverNoContextTakeover: true,
+          clientNoContextTakeover: true,
+        },
+      });
       wss.on('listening', () => {
         this.servers.set(port, wss);
         resolve();
@@ -156,7 +171,16 @@ class WebSocketFallbackTransport implements AgentTransport {
       const url = address.startsWith('ws://') || address.startsWith('wss://')
         ? address
         : `ws://${address}`;
-      const ws = new WebSocket(url);
+      // Match server-side compression so handshake negotiates deflate.
+      // Same parameters as in listen() above.
+      const ws = new WebSocket(url, {
+        perMessageDeflate: {
+          threshold: 256,
+          zlibDeflateOptions: { level: 3 },
+          serverNoContextTakeover: true,
+          clientNoContextTakeover: true,
+        },
+      });
 
       ws.on('open', () => {
         this.connections.set(address, ws);
