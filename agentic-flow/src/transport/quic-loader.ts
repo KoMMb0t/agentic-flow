@@ -69,7 +69,27 @@ export interface AgentMessage {
   type: 'task' | 'result' | 'status' | 'coordination' | 'heartbeat' | string;
   payload: unknown;
   metadata?: Record<string, unknown>;
+  /**
+   * Stream multiplexing identifier. Messages with different streamIds
+   * to the same peer are independent — receive queues and onMessage
+   * handlers can scope per-stream, eliminating head-of-line blocking
+   * for sequential `await` patterns on a single peer connection.
+   *
+   * Defaults to `'default'` if omitted (backward compat). Common
+   * patterns:
+   *   - One stream per logical request type (`'rpc'`, `'event'`,
+   *     `'control'`)
+   *   - One stream per task (`taskId` doubled as streamId)
+   *   - One stream per priority class (`'high'`, `'normal'`, `'low'`)
+   *
+   * Maps cleanly to native QUIC streams when AGENTIC_FLOW_QUIC_NATIVE=1
+   * (each app-layer streamId becomes a QUIC stream id at that point).
+   */
+  streamId?: string | number;
 }
+
+/** Default streamId when caller omits it. Backward-compat sentinel. */
+export const DEFAULT_STREAM_ID = 'default';
 
 export interface PoolStatistics {
   active: number;
@@ -84,26 +104,42 @@ export type InboundMessageHandler = (
   message: AgentMessage,
 ) => void | Promise<void>;
 
+/**
+ * Per-stream subscription options. Pass to `onMessage` to scope a
+ * handler to a specific streamId (only fires for messages with that
+ * exact streamId). Omit to receive all streams.
+ */
+export interface OnMessageOptions {
+  readonly streamId?: string | number;
+}
+
 /** Common interface both real-QUIC and fallback transports satisfy. */
 export interface AgentTransport {
   send(address: string, message: AgentMessage): Promise<void>;
-  receive(address: string): Promise<AgentMessage>;
+  /**
+   * Receive the next message from a peer. Optional `streamId` scopes
+   * to that stream's queue (independent of other streams to the same
+   * peer). Omit to use the default stream — backward-compat behavior.
+   */
+  receive(address: string, streamId?: string | number): Promise<AgentMessage>;
   request(address: string, message: AgentMessage): Promise<AgentMessage>;
   sendBatch(address: string, messages: AgentMessage[]): Promise<void>;
   getStats(): Promise<PoolStatistics>;
   close(): Promise<void>;
   /**
-   * Subscribe to inbound messages. The handler fires for every message
-   * received by this transport (both server-side accepted connections
-   * and client-side receive callbacks). Multiple handlers may be
-   * registered. Errors thrown by a handler are logged but do not stop
+   * Subscribe to inbound messages. The handler fires for every received
+   * message that matches `options.streamId` (if provided) or for every
+   * message regardless of streamId (if options omitted).
+   *
+   * Multiple handlers may be registered (per-stream OR all-streams or
+   * a mix). Errors thrown by a handler are logged but do not stop
    * delivery to other handlers.
    *
    * Optional method — implementations that don't support push-style
    * delivery may omit it. Callers should use `transport.onMessage?.(h)`
    * to gracefully degrade.
    */
-  onMessage?(handler: InboundMessageHandler): void;
+  onMessage?(handler: InboundMessageHandler, options?: OnMessageOptions): void;
 }
 
 /**
@@ -122,16 +158,37 @@ export interface AgentTransport {
  */
 class WebSocketFallbackTransport implements AgentTransport {
   private connections = new Map<string, WebSocket>();
+  /**
+   * Per-(address, streamId) message queue. Composite key shape
+   * `${address}#${streamId}` — see {@link queueKey}. Each stream gets
+   * its own FIFO so receive(addr, streamA) is independent of
+   * receive(addr, streamB) — eliminates head-of-line blocking on a
+   * single peer connection.
+   */
   private messageQueue = new Map<string, AgentMessage[]>();
   private connectionsCreated = 0;
   private connectionsClosed = 0;
   private servers = new Map<number, WebSocketServer>();
   /**
-   * Inbound handlers registered via onMessage. Fired for every received
-   * message after it lands in the per-address queue (queue stays for the
-   * receive() poll API; handlers add push-style delivery on top).
+   * Inbound handlers. Each entry is { handler, streamId? }. When
+   * streamId is undefined the handler receives ALL messages
+   * regardless of stream; otherwise only messages with the matching
+   * streamId. Lets callers register both per-stream + catch-all.
    */
-  private inboundHandlers = new Set<InboundMessageHandler>();
+  private inboundHandlers = new Set<{
+    handler: InboundMessageHandler;
+    streamId?: string | number;
+  }>();
+
+  /** Compose the per-(address, streamId) queue key. */
+  private queueKey(address: string, streamId: string | number): string {
+    return `${address}#${streamId}`;
+  }
+
+  /** Resolve the streamId for a message — defaults to DEFAULT_STREAM_ID. */
+  private streamOf(message: AgentMessage): string | number {
+    return message.streamId ?? DEFAULT_STREAM_ID;
+  }
 
   constructor(private readonly config: Required<QuicTransportConfig>) {}
 
@@ -207,9 +264,11 @@ class WebSocketFallbackTransport implements AgentTransport {
       ws.on('message', (raw: RawData) => {
         try {
           const message = JSON.parse(raw.toString()) as AgentMessage;
-          const queue = this.messageQueue.get(remoteAddr) ?? [];
+          // Per-stream queue (default stream when message.streamId omitted)
+          const key = this.queueKey(remoteAddr, this.streamOf(message));
+          const queue = this.messageQueue.get(key) ?? [];
           queue.push(message);
-          this.messageQueue.set(remoteAddr, queue);
+          this.messageQueue.set(key, queue);
           this.dispatchInbound(remoteAddr, message);
         } catch (err) {
           logger.warn('Dropped malformed inbound WS message', { remoteAddr, err });
@@ -302,9 +361,10 @@ class WebSocketFallbackTransport implements AgentTransport {
       ws.on('message', (raw: RawData) => {
         try {
           const message = JSON.parse(raw.toString()) as AgentMessage;
-          const queue = this.messageQueue.get(address) ?? [];
+          const key = this.queueKey(address, this.streamOf(message));
+          const queue = this.messageQueue.get(key) ?? [];
           queue.push(message);
-          this.messageQueue.set(address, queue);
+          this.messageQueue.set(key, queue);
           this.dispatchInbound(address, message);
         } catch (err) {
           logger.warn('Dropped malformed WebSocket message', { address, err });
@@ -319,27 +379,35 @@ class WebSocketFallbackTransport implements AgentTransport {
   }
 
   /**
-   * Register an inbound handler. Returns nothing; handlers are
-   * de-duplicated by reference (registering the same function twice
-   * has no effect). To unregister, the caller would need to keep the
-   * reference and call `set.delete(handler)` — exposed via a separate
-   * helper if needed in the future.
+   * Register an inbound handler. Optional `options.streamId` scopes
+   * the handler to a specific stream (only fires for messages with
+   * matching streamId). Omit to subscribe to ALL streams.
+   *
+   * Patterns:
+   *   onMessage(h)                              — receives all
+   *   onMessage(h, { streamId: 'rpc' })         — receives only rpc
+   *   onMessage(h, { streamId: 'event' })       — receives only event
+   *   (both registered)                         — both fire on
+   *                                                their respective streams
    */
-  onMessage(handler: InboundMessageHandler): void {
-    this.inboundHandlers.add(handler);
+  onMessage(handler: InboundMessageHandler, options: OnMessageOptions = {}): void {
+    this.inboundHandlers.add({ handler, streamId: options.streamId });
   }
 
   /**
-   * Fire all registered handlers for a received message. Errors thrown
-   * synchronously OR rejected asynchronously by a handler are logged
-   * but do not stop delivery to other handlers — push-style delivery is
-   * fire-and-forget per-handler.
+   * Fire all matching handlers for a received message. Stream-scoped
+   * handlers only fire when the message's streamId matches; all-stream
+   * handlers always fire. Errors thrown sync OR async-rejected by one
+   * handler don't stop delivery to others.
    */
   private dispatchInbound(address: string, message: AgentMessage): void {
     if (this.inboundHandlers.size === 0) return;
-    for (const h of this.inboundHandlers) {
+    const msgStream = this.streamOf(message);
+    for (const entry of this.inboundHandlers) {
+      // Stream filter: scoped handler only fires on matching streamId
+      if (entry.streamId !== undefined && entry.streamId !== msgStream) continue;
       try {
-        const r = h(address, message);
+        const r = entry.handler(address, message);
         if (r && typeof (r as Promise<void>).catch === 'function') {
           (r as Promise<void>).catch((err) => {
             logger.warn('Inbound handler rejected', { address, err });
@@ -351,15 +419,16 @@ class WebSocketFallbackTransport implements AgentTransport {
     }
   }
 
-  async receive(address: string): Promise<AgentMessage> {
+  async receive(address: string, streamId: string | number = DEFAULT_STREAM_ID): Promise<AgentMessage> {
+    const key = this.queueKey(address, streamId);
     // Fast path
-    const queue = this.messageQueue.get(address) ?? [];
+    const queue = this.messageQueue.get(key) ?? [];
     if (queue.length > 0) return queue.shift()!;
 
     // Poll (caller must time out externally if they don't want to wait)
     return new Promise((resolve) => {
       const interval = setInterval(() => {
-        const q = this.messageQueue.get(address) ?? [];
+        const q = this.messageQueue.get(key) ?? [];
         if (q.length > 0) {
           clearInterval(interval);
           resolve(q.shift()!);

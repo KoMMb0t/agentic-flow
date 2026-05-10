@@ -174,6 +174,100 @@ describe('WebSocketFallbackTransport — real I/O round-trip', () => {
   });
 });
 
+describe('Stream multiplexing — per-stream queues', () => {
+  let srv: WebSocketFallbackTransport | undefined;
+  let cli: AgentTransport | undefined;
+
+  afterEach(async () => {
+    await closeAll(cli, srv);
+    srv = undefined;
+    cli = undefined;
+  });
+
+  it('messages on different streams land in independent queues', async () => {
+    srv = await WebSocketFallbackTransport.create({ serverName: 'srv' });
+    await srv.listen(TEST_PORT + 10, '127.0.0.1');
+
+    cli = await loadQuicTransport({ serverName: 'cli' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 10}`, { id: 'a1', type: 'task', payload: { s: 'A' }, streamId: 'A' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 10}`, { id: 'b1', type: 'task', payload: { s: 'B' }, streamId: 'B' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 10}`, { id: 'a2', type: 'task', payload: { s: 'A' }, streamId: 'A' });
+
+    // Wait for inbound queueing
+    await new Promise((r) => setTimeout(r, 200));
+  });
+
+  it('stream-scoped onMessage handler only fires for matching streamId', async () => {
+    srv = await WebSocketFallbackTransport.create({ serverName: 'srv' });
+    await srv.listen(TEST_PORT + 11, '127.0.0.1');
+
+    const aMsgs: AgentMessage[] = [];
+    const bMsgs: AgentMessage[] = [];
+    const allMsgs: AgentMessage[] = [];
+    srv.onMessage((_addr, m) => aMsgs.push(m), { streamId: 'A' });
+    srv.onMessage((_addr, m) => bMsgs.push(m), { streamId: 'B' });
+    srv.onMessage((_addr, m) => allMsgs.push(m)); // catch-all
+
+    cli = await loadQuicTransport({ serverName: 'cli' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 11}`, { id: 'a1', type: 'task', payload: {}, streamId: 'A' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 11}`, { id: 'b1', type: 'task', payload: {}, streamId: 'B' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 11}`, { id: 'a2', type: 'task', payload: {}, streamId: 'A' });
+
+    await new Promise((r) => setTimeout(r, 250));
+    expect(aMsgs.map((m) => m.id)).toEqual(['a1', 'a2']);
+    expect(bMsgs.map((m) => m.id)).toEqual(['b1']);
+    expect(allMsgs).toHaveLength(3); // catch-all sees everything
+  });
+
+  it('messages without streamId default to DEFAULT_STREAM_ID and route to default-scoped handlers', async () => {
+    srv = await WebSocketFallbackTransport.create({ serverName: 'srv' });
+    await srv.listen(TEST_PORT + 12, '127.0.0.1');
+
+    const defaultMsgs: AgentMessage[] = [];
+    srv.onMessage((_addr, m) => defaultMsgs.push(m), { streamId: DEFAULT_STREAM_ID });
+
+    cli = await loadQuicTransport({ serverName: 'cli' });
+    // Two sends without streamId — both should fall under DEFAULT_STREAM_ID
+    await cli.send(`127.0.0.1:${TEST_PORT + 12}`, { id: 'd1', type: 'task', payload: {} });
+    await cli.send(`127.0.0.1:${TEST_PORT + 12}`, { id: 'd2', type: 'task', payload: {} });
+
+    await new Promise((r) => setTimeout(r, 250));
+    expect(defaultMsgs.map((m) => m.id)).toEqual(['d1', 'd2']);
+  });
+
+  it('numeric streamIds work the same as string streamIds', async () => {
+    srv = await WebSocketFallbackTransport.create({ serverName: 'srv' });
+    await srv.listen(TEST_PORT + 13, '127.0.0.1');
+
+    const stream42: AgentMessage[] = [];
+    srv.onMessage((_addr, m) => stream42.push(m), { streamId: 42 });
+
+    cli = await loadQuicTransport({ serverName: 'cli' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 13}`, { id: 'n1', type: 'task', payload: {}, streamId: 42 });
+    await cli.send(`127.0.0.1:${TEST_PORT + 13}`, { id: 'n2', type: 'task', payload: {}, streamId: 99 });
+
+    await new Promise((r) => setTimeout(r, 250));
+    expect(stream42.map((m) => m.id)).toEqual(['n1']);
+  });
+
+  it('handler error in one stream does not affect other streams', async () => {
+    srv = await WebSocketFallbackTransport.create({ serverName: 'srv' });
+    await srv.listen(TEST_PORT + 14, '127.0.0.1');
+
+    srv.onMessage(() => { throw new Error('A handler crashes'); }, { streamId: 'A' });
+    const bSeen: AgentMessage[] = [];
+    srv.onMessage((_a, m) => bSeen.push(m), { streamId: 'B' });
+
+    cli = await loadQuicTransport({ serverName: 'cli' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 14}`, { id: 'a', type: 'task', payload: {}, streamId: 'A' });
+    await cli.send(`127.0.0.1:${TEST_PORT + 14}`, { id: 'b', type: 'task', payload: {}, streamId: 'B' });
+
+    await new Promise((r) => setTimeout(r, 250));
+    // B handler still got its message despite A handler throwing
+    expect(bSeen.map((m) => m.id)).toEqual(['b']);
+  });
+});
+
 describe('TLS config (ADR-107)', () => {
   it('config.tls is optional + defaults to {} (backward compat)', async () => {
     // Just creating without tls field MUST not throw — proves the
