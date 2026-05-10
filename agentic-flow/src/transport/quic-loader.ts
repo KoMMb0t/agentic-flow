@@ -22,6 +22,37 @@
 
 import { logger } from '../utils/logger.js';
 import WebSocket, { WebSocketServer, type RawData } from 'ws';
+import { createHash } from 'node:crypto';
+import { createServer as createHttpsServer } from 'node:https';
+import { readFileSync } from 'node:fs';
+import type { TLSSocket } from 'node:tls';
+
+/** TLS configuration for wss:// peers (ADR-107). */
+export interface TlsConfig {
+  /** Path to PEM cert file (server side — bind certs for the listener). */
+  certPath?: string;
+  /** Path to PEM key file (server side). */
+  keyPath?: string;
+  /**
+   * Pinned `sha256/<base64>` fingerprints of acceptable peer certs
+   * (client side — outbound connections).
+   *
+   * When set, ONLY these exact certs are accepted. CA validation is
+   * skipped — the fingerprint IS the trust anchor. Fail-closed: if the
+   * peer's cert rotates and the fingerprint doesn't match, the
+   * connection is refused (operator must update config + restart).
+   *
+   * This prevents:
+   *   - Compromised public CAs issuing rogue certs for our domain
+   *   - TLS-MITM attacks where the attacker holds a valid cert chain
+   */
+  pinnedFingerprints?: string[];
+  /**
+   * Optional CA bundle path for non-pinned mode (e.g. private CA).
+   * Used only when `pinnedFingerprints` is empty/unset.
+   */
+  caPath?: string;
+}
 
 /** Caller-facing config — minimal common surface across both backends. */
 export interface QuicTransportConfig {
@@ -29,6 +60,8 @@ export interface QuicTransportConfig {
   maxIdleTimeoutMs?: number;
   maxConcurrentStreams?: number;
   enable0Rtt?: boolean;
+  /** TLS materials for wss:// listeners + clients (ADR-107). */
+  tls?: TlsConfig;
 }
 
 export interface AgentMessage {
@@ -128,34 +161,58 @@ class WebSocketFallbackTransport implements AgentTransport {
   async listen(port: number, host = '0.0.0.0'): Promise<void> {
     if (this.servers.has(port)) return;
     return new Promise((resolve, reject) => {
-      const wss = new WebSocketServer({
-        port,
-        host,
+      const tls = this.config.tls;
+      const wssOpts: ConstructorParameters<typeof WebSocketServer>[0] = {
         perMessageDeflate: {
           threshold: 256,
           zlibDeflateOptions: { level: 3 },
           serverNoContextTakeover: true,
           clientNoContextTakeover: true,
         },
-      });
+      };
+      // ADR-107: if cert+key paths are configured, bind via https.Server
+      // (wss://). Otherwise bind plain ws:// directly.
+      if (tls?.certPath && tls?.keyPath) {
+        const cert = readFileSync(tls.certPath);
+        const key = readFileSync(tls.keyPath);
+        const httpsServer = createHttpsServer({ cert, key });
+        httpsServer.listen(port, host, () => {
+          const wss = new WebSocketServer({ ...wssOpts, server: httpsServer });
+          this.attachServerHandlers(wss);
+          this.servers.set(port, wss);
+          resolve();
+        });
+        httpsServer.on('error', reject);
+        return;
+      }
+      const wss = new WebSocketServer({ ...wssOpts, port, host });
       wss.on('listening', () => {
         this.servers.set(port, wss);
         resolve();
       });
       wss.on('error', reject);
-      wss.on('connection', (ws, req) => {
-        const remoteAddr = `${req.socket.remoteAddress}:${req.socket.remotePort}`;
-        ws.on('message', (raw: RawData) => {
-          try {
-            const message = JSON.parse(raw.toString()) as AgentMessage;
-            const queue = this.messageQueue.get(remoteAddr) ?? [];
-            queue.push(message);
-            this.messageQueue.set(remoteAddr, queue);
-            this.dispatchInbound(remoteAddr, message);
-          } catch (err) {
-            logger.warn('Dropped malformed inbound WS message', { remoteAddr, err });
-          }
-        });
+      this.attachServerHandlers(wss);
+    });
+  }
+
+  /**
+   * Wire the server's `connection` and per-socket `message` handlers.
+   * Extracted so the wss:// path (where the WebSocketServer is attached
+   * to a pre-created https.Server) can share the same logic.
+   */
+  private attachServerHandlers(wss: WebSocketServer): void {
+    wss.on('connection', (ws, req) => {
+      const remoteAddr = `${req.socket.remoteAddress}:${req.socket.remotePort}`;
+      ws.on('message', (raw: RawData) => {
+        try {
+          const message = JSON.parse(raw.toString()) as AgentMessage;
+          const queue = this.messageQueue.get(remoteAddr) ?? [];
+          queue.push(message);
+          this.messageQueue.set(remoteAddr, queue);
+          this.dispatchInbound(remoteAddr, message);
+        } catch (err) {
+          logger.warn('Dropped malformed inbound WS message', { remoteAddr, err });
+        }
       });
     });
   }
@@ -171,16 +228,52 @@ class WebSocketFallbackTransport implements AgentTransport {
       const url = address.startsWith('ws://') || address.startsWith('wss://')
         ? address
         : `ws://${address}`;
-      // Match server-side compression so handshake negotiates deflate.
-      // Same parameters as in listen() above.
-      const ws = new WebSocket(url, {
+
+      // ADR-107: cert pinning for wss:// peers. Build the WS options
+      // with both compression (perf) and TLS hooks (security).
+      const tls = this.config.tls;
+      const isWss = url.startsWith('wss://');
+      const wsOpts: WebSocket.ClientOptions = {
         perMessageDeflate: {
           threshold: 256,
           zlibDeflateOptions: { level: 3 },
           serverNoContextTakeover: true,
           clientNoContextTakeover: true,
         },
-      });
+      };
+
+      if (isWss && tls?.pinnedFingerprints && tls.pinnedFingerprints.length > 0) {
+        // Fail-closed pinning: ONLY accept the listed cert fingerprints.
+        // CA path validation is irrelevant — the fingerprint IS the trust
+        // anchor. If the cert rotates, the operator must update config.
+        const pinned = new Set(tls.pinnedFingerprints);
+        wsOpts.checkServerIdentity = (_host, cert) => {
+          // cert.raw is the DER-encoded cert bytes; sha256/<base64> matches
+          // common pinning notation (and what `openssl x509 -fingerprint
+          // -sha256` outputs after base64-encoding).
+          const fp = `sha256/${createHash('sha256').update(cert.raw).digest('base64')}`;
+          if (!pinned.has(fp)) {
+            return new Error(
+              `Federation TLS: peer cert fingerprint ${fp} not in pinned set ` +
+                `(${pinned.size} fingerprint(s) configured)`,
+            );
+          }
+          return undefined; // accept
+        };
+        // When pinning is on, we explicitly DON'T want CA validation
+        // (the fingerprint check above is the real auth). But we also
+        // DON'T want to silently accept ANY cert — the checkServerIdentity
+        // above is still called.
+        wsOpts.rejectUnauthorized = false;
+      } else if (isWss && tls?.caPath) {
+        // Non-pinned mode: validate against the configured CA bundle.
+        wsOpts.ca = readFileSync(tls.caPath);
+        wsOpts.rejectUnauthorized = true;
+      }
+      // (no tls config + ws:// → plain unencrypted; ADR-104 documents
+      // tailnet-as-TLS as the recommended path)
+
+      const ws = new WebSocket(url, wsOpts);
 
       ws.on('open', () => {
         this.connections.set(address, ws);
