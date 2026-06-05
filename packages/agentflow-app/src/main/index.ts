@@ -294,6 +294,16 @@ async function pingConnector(
         headers = { 'Authorization': token };
         break;
       }
+      case 'openai': {
+        const token = explicitKey || process.env.OPENAI_API_KEY || '';
+        if (!token) return { status: 'error', latency: 0, message: 'Kein OpenAI API Key konfiguriert' };
+        url = 'https://api.openai.com/v1/models';
+        headers = {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        };
+        break;
+      }
       case 'googledrive': {
         const token = explicitKey || process.env.GOOGLE_API_KEY || '';
         if (!token) return { status: 'error', latency: 0, message: 'Kein Google API Key konfiguriert' };

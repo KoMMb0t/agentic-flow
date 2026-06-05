@@ -11,7 +11,11 @@
     "build": "tsc -p tsconfig.main.json && vite build",
     "build:check": "tsc --noEmit && tsc -p tsconfig.main.json --noEmit",
     "start": "electron .",
-    "package": "npm run build && electron-builder"
+    "package": "npm run build && electron-builder",
+    "build:win": "npm run build && electron-builder --win",
+    "build:linux": "npm run build && electron-builder --linux",
+    "build:mac": "npm run build && electron-builder --mac",
+    "build:all": "npm run build && electron-builder --win --linux"
   },
   "author": "KoMMb0t",
   "license": "MIT",
@@ -43,13 +47,72 @@
   "build": {
     "appId": "com.kommb0t.agentflow",
     "productName": "AgentFlow",
+    "copyright": "Copyright © 2024-2025 KoMMb0t",
+    "icon": "build-assets/icon",
+    "asar": true,
     "files": [
       "dist/**/*",
       "data/**/*",
-      "public/**/*"
+      "public/**/*",
+      "!**/.env",
+      "!**/node_modules",
+      "!**/*.map"
+    ],
+    "extraResources": [
+      {
+        "from": "data/",
+        "to": "data/",
+        "filter": ["**/*"]
+      }
     ],
     "directories": {
-      "output": "release"
-    }
+      "output": "release",
+      "buildResources": "build-assets"
+    },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "build-assets/icon.ico",
+      "requestedExecutionLevel": "asInvoker",
+      "artifactName": "AgentFlow-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AgentFlow",
+      "installerIcon": "build-assets/icon.ico",
+      "uninstallerIcon": "build-assets/icon.ico",
+      "installerHeaderIcon": "build-assets/icon.ico",
+      "deleteAppDataOnUninstall": false,
+      "menuCategory": "AgentFlow"
+    },
+    "linux": {
+      "target": [
+        { "target": "AppImage", "arch": ["x64"] },
+        { "target": "deb", "arch": ["x64"] }
+      ],
+      "icon": "build-assets/",
+      "category": "Development",
+      "description": "AgentFlow - KI-Agenten Orchestrierung Desktop App",
+      "maintainer": "KoMMb0t",
+      "artifactName": "AgentFlow-${version}-${arch}.${ext}"
+    },
+    "deb": {
+      "depends": ["libnotify4", "libxtst6", "libnss3"]
+    },
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] }
+      ],
+      "icon": "build-assets/icon.png",
+      "category": "public.app-category.developer-tools",
+      "artifactName": "AgentFlow-${version}-${arch}.${ext}"
+    },
+    "publish": null
   }
 }

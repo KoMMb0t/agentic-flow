@@ -48,6 +48,12 @@ const CONNECTOR_META: Record<string, { label: string; placeholder: string; helpU
     helpText: 'Erstelle einen API Token unter ClickUp Settings → Apps',
     extraField: { key: 'workspaceId', label: 'Workspace ID', placeholder: '12345678' },
   },
+  openai: {
+    label: 'OpenAI API Key',
+    placeholder: 'sk-proj-...',
+    helpUrl: 'https://platform.openai.com/api-keys',
+    helpText: 'Erstelle einen API Key unter platform.openai.com/api-keys (Konto erforderlich)',
+  },
   googledrive: {
     label: 'Google API Key / OAuth Token',
     placeholder: 'AIza... oder ya29...',

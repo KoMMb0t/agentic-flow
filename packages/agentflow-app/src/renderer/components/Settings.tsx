@@ -74,6 +74,17 @@ const QUICK_CONNECTORS: Connector[] = [
     config: {},
   },
   {
+    id: 'openai',
+    name: 'OpenAI / ChatGPT',
+    type: 'ai',
+    icon: 'sparkles',
+    description: 'GPT-4o, GPT-4 Turbo, DALL-E 3 von OpenAI',
+    baseUrl: 'https://api.openai.com/v1',
+    enabled: true,
+    status: 'unknown',
+    config: {},
+  },
+  {
     id: 'googledrive',
     name: 'Google Drive',
     type: 'storage',

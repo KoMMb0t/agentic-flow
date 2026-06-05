@@ -89,6 +89,21 @@
       }
     },
     {
+      "id": "openai",
+      "name": "OpenAI / ChatGPT",
+      "type": "ai",
+      "icon": "sparkles",
+      "description": "GPT-4o, GPT-4 Turbo, DALL-E 3 und Whisper von OpenAI",
+      "baseUrl": "https://api.openai.com/v1",
+      "enabled": false,
+      "status": "unknown",
+      "config": {
+        "model": "gpt-4o",
+        "maxTokens": 4096,
+        "temperature": 0.7
+      }
+    },
+    {
       "id": "googledrive",
       "name": "Google Drive",
       "type": "storage",
