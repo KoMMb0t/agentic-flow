@@ -1,0 +1,78 @@
+{
+  "connectors": [
+    {
+      "id": "github",
+      "name": "GitHub",
+      "type": "git",
+      "icon": "github",
+      "description": "GitHub Repository-Management, Issues, Pull Requests und Actions",
+      "baseUrl": "https://api.github.com",
+      "enabled": true,
+      "status": "unknown",
+      "config": {
+        "apiVersion": "2022-11-28",
+        "defaultOrg": "KoMMb0t",
+        "rateLimit": 5000
+      }
+    },
+    {
+      "id": "gitlab",
+      "name": "GitLab",
+      "type": "git",
+      "icon": "gitlab",
+      "description": "GitLab Repository-Management, CI/CD Pipelines und Container Registry",
+      "baseUrl": "https://gitlab.com/api/v4",
+      "enabled": false,
+      "status": "unknown",
+      "config": {
+        "apiVersion": "v4",
+        "defaultGroup": "",
+        "rateLimit": 2000
+      }
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic Claude",
+      "type": "ai",
+      "icon": "brain",
+      "description": "Claude AI für Textgenerierung, Analyse und Code-Assistenz",
+      "baseUrl": "https://api.anthropic.com/v1",
+      "enabled": true,
+      "status": "unknown",
+      "config": {
+        "model": "claude-sonnet-4-20250514",
+        "maxTokens": 4096,
+        "temperature": 0.7
+      }
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "type": "ai",
+      "icon": "sparkles",
+      "description": "GPT-4 und DALL-E für Text- und Bildgenerierung",
+      "baseUrl": "https://api.openai.com/v1",
+      "enabled": false,
+      "status": "unknown",
+      "config": {
+        "model": "gpt-4-turbo",
+        "maxTokens": 4096,
+        "temperature": 0.7
+      }
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "type": "communication",
+      "icon": "message-square",
+      "description": "Slack-Integration für Benachrichtigungen und Team-Kommunikation",
+      "baseUrl": "https://slack.com/api",
+      "enabled": false,
+      "status": "unknown",
+      "config": {
+        "channel": "#agentflow",
+        "notifications": true
+      }
+    }
+  ]
+}

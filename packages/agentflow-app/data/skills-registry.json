@@ -1,0 +1,211 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-05T00:00:00Z",
+  "skills": [
+    {
+      "id": "code-review",
+      "name": "Code Review",
+      "version": "2.1.0",
+      "description": "Automatisierte Code-Analyse mit Best-Practice-Prüfung, Security-Audit und Performance-Hinweisen",
+      "author": "AgentFlow Team",
+      "tags": ["code", "review", "qualität", "security"],
+      "category": "Entwicklung",
+      "icon": "code",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus", "gpt-4"],
+      "installed": false,
+      "config": {
+        "languages": ["typescript", "python", "rust", "go"],
+        "maxFileSize": "100KB",
+        "checkTypes": ["security", "performance", "style", "bugs"]
+      }
+    },
+    {
+      "id": "translation",
+      "name": "Übersetzung",
+      "version": "3.0.1",
+      "description": "Professionelle Übersetzung mit Kontextverständnis, Fachterminologie und Tonalitätsanpassung",
+      "author": "AgentFlow Team",
+      "tags": ["sprache", "übersetzung", "lokalisierung", "i18n"],
+      "category": "Sprache",
+      "icon": "languages",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus", "gpt-4", "gpt-4-turbo"],
+      "installed": false,
+      "config": {
+        "sourceLang": "auto",
+        "targetLangs": ["de", "en", "fr", "es", "it", "ja", "zh"],
+        "preserveFormatting": true
+      }
+    },
+    {
+      "id": "documentation",
+      "name": "Dokumentation",
+      "version": "1.5.0",
+      "description": "Automatische Erstellung von technischer Dokumentation, API-Docs, README-Dateien und Changelogs",
+      "author": "AgentFlow Team",
+      "tags": ["docs", "readme", "api", "changelog"],
+      "category": "Entwicklung",
+      "icon": "file-text",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus", "gpt-4"],
+      "installed": false,
+      "config": {
+        "formats": ["markdown", "html", "pdf"],
+        "includeExamples": true,
+        "autoTOC": true
+      }
+    },
+    {
+      "id": "testing",
+      "name": "Test-Generator",
+      "version": "2.0.0",
+      "description": "Generiert Unit-Tests, Integration-Tests und E2E-Tests basierend auf Quellcode-Analyse",
+      "author": "AgentFlow Team",
+      "tags": ["testing", "unit-test", "e2e", "coverage"],
+      "category": "Entwicklung",
+      "icon": "test-tube",
+      "compatibility": ["claude-sonnet-4-20250514", "gpt-4"],
+      "installed": false,
+      "config": {
+        "frameworks": ["jest", "vitest", "pytest", "playwright"],
+        "coverageTarget": 80,
+        "includeEdgeCases": true
+      }
+    },
+    {
+      "id": "data-analysis",
+      "name": "Datenanalyse",
+      "version": "1.8.0",
+      "description": "Analyse von Datensätzen mit statistischen Methoden, Visualisierungsvorschlägen und Insights",
+      "author": "AgentFlow Team",
+      "tags": ["daten", "analyse", "statistik", "visualisierung"],
+      "category": "Analyse",
+      "icon": "bar-chart",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus", "gpt-4"],
+      "installed": false,
+      "config": {
+        "maxRows": 100000,
+        "outputFormats": ["json", "csv", "chart"],
+        "statisticalMethods": ["regression", "clustering", "correlation"]
+      }
+    },
+    {
+      "id": "project-planning",
+      "name": "Projektplanung",
+      "version": "1.3.0",
+      "description": "Erstellt Projektpläne, Meilensteine, Aufgabenverteilung und Zeitschätzungen",
+      "author": "AgentFlow Team",
+      "tags": ["planung", "projekt", "agile", "meilensteine"],
+      "category": "Management",
+      "icon": "gantt-chart",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus", "gpt-4", "gpt-4-turbo"],
+      "installed": false,
+      "config": {
+        "methodologies": ["scrum", "kanban", "waterfall"],
+        "estimationUnit": "story-points",
+        "includeRisks": true
+      }
+    },
+    {
+      "id": "security-audit",
+      "name": "Security Audit",
+      "version": "2.2.0",
+      "description": "Umfassende Sicherheitsanalyse von Code, Konfigurationen und Infrastruktur",
+      "author": "AgentFlow Team",
+      "tags": ["security", "audit", "vulnerability", "compliance"],
+      "category": "Sicherheit",
+      "icon": "shield",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus"],
+      "installed": false,
+      "config": {
+        "standards": ["OWASP", "CIS", "NIST"],
+        "severityLevels": ["critical", "high", "medium", "low"],
+        "autoFix": false
+      }
+    },
+    {
+      "id": "api-design",
+      "name": "API Design",
+      "version": "1.6.0",
+      "description": "Entwirft RESTful und GraphQL APIs mit OpenAPI-Spezifikation und Best Practices",
+      "author": "AgentFlow Team",
+      "tags": ["api", "rest", "graphql", "openapi"],
+      "category": "Entwicklung",
+      "icon": "plug",
+      "compatibility": ["claude-sonnet-4-20250514", "gpt-4"],
+      "installed": false,
+      "config": {
+        "apiStyles": ["REST", "GraphQL", "gRPC"],
+        "specFormat": "OpenAPI 3.1",
+        "includeAuth": true,
+        "generateMocks": true
+      }
+    },
+    {
+      "id": "creative-writing",
+      "name": "Kreatives Schreiben",
+      "version": "1.4.0",
+      "description": "Unterstützung bei kreativem Schreiben: Storytelling, Marketing-Texte, Blog-Posts und Social Media",
+      "author": "AgentFlow Team",
+      "tags": ["kreativ", "schreiben", "marketing", "content"],
+      "category": "Kreativ",
+      "icon": "pen-tool",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus", "gpt-4", "gpt-4-turbo"],
+      "installed": false,
+      "config": {
+        "tones": ["professionell", "casual", "humorvoll", "akademisch"],
+        "formats": ["blog", "social-media", "newsletter", "story"],
+        "maxLength": 5000
+      }
+    },
+    {
+      "id": "refactoring",
+      "name": "Code Refactoring",
+      "version": "1.9.0",
+      "description": "Intelligentes Refactoring mit Design-Pattern-Vorschlägen, Clean-Code-Prinzipien und Architektur-Optimierung",
+      "author": "AgentFlow Team",
+      "tags": ["refactoring", "clean-code", "patterns", "architektur"],
+      "category": "Entwicklung",
+      "icon": "refresh-cw",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus", "gpt-4"],
+      "installed": false,
+      "config": {
+        "patterns": ["SOLID", "DRY", "KISS", "Factory", "Observer", "Strategy"],
+        "preserveTests": true,
+        "incrementalMode": true
+      }
+    },
+    {
+      "id": "devops-automation",
+      "name": "DevOps Automation",
+      "version": "1.2.0",
+      "description": "CI/CD Pipeline-Erstellung, Docker-Konfiguration, Kubernetes-Manifeste und Infrastructure-as-Code",
+      "author": "AgentFlow Team",
+      "tags": ["devops", "ci-cd", "docker", "kubernetes"],
+      "category": "Infrastruktur",
+      "icon": "server",
+      "compatibility": ["claude-sonnet-4-20250514", "gpt-4"],
+      "installed": false,
+      "config": {
+        "platforms": ["GitHub Actions", "GitLab CI", "Jenkins"],
+        "containerRuntime": "docker",
+        "orchestrator": "kubernetes"
+      }
+    },
+    {
+      "id": "database-design",
+      "name": "Datenbank-Design",
+      "version": "1.1.0",
+      "description": "Schema-Design, Migrations-Erstellung, Query-Optimierung und Normalisierung für SQL und NoSQL",
+      "author": "AgentFlow Team",
+      "tags": ["datenbank", "sql", "schema", "migration"],
+      "category": "Entwicklung",
+      "icon": "database",
+      "compatibility": ["claude-sonnet-4-20250514", "claude-3-opus", "gpt-4"],
+      "installed": false,
+      "config": {
+        "databases": ["PostgreSQL", "MySQL", "MongoDB", "Redis"],
+        "includeIndexes": true,
+        "normalizationLevel": "3NF"
+      }
+    }
+  ]
+}
