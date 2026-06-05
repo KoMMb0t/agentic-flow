@@ -32,7 +32,7 @@
     },
     {
       "id": "anthropic",
-      "name": "Anthropic Claude",
+      "name": "Claude (Anthropic)",
       "type": "ai",
       "icon": "brain",
       "description": "Claude AI für Textgenerierung, Analyse und Code-Assistenz",
@@ -46,16 +46,16 @@
       }
     },
     {
-      "id": "openai",
-      "name": "OpenAI",
+      "id": "openrouter",
+      "name": "OpenRouter",
       "type": "ai",
       "icon": "sparkles",
-      "description": "GPT-4 und DALL-E für Text- und Bildgenerierung",
-      "baseUrl": "https://api.openai.com/v1",
+      "description": "Zugang zu 200+ KI-Modellen (GPT-4, Gemini, Mistral, Llama u.v.m.)",
+      "baseUrl": "https://openrouter.ai/api/v1",
       "enabled": false,
       "status": "unknown",
       "config": {
-        "model": "gpt-4-turbo",
+        "model": "openai/gpt-4-turbo",
         "maxTokens": 4096,
         "temperature": 0.7
       }
@@ -72,6 +72,34 @@
       "config": {
         "channel": "#agentflow",
         "notifications": true
+      }
+    },
+    {
+      "id": "clickup",
+      "name": "ClickUp",
+      "type": "pm",
+      "icon": "check-square",
+      "description": "Projektmanagement, Aufgaben und Workflows in ClickUp",
+      "baseUrl": "https://api.clickup.com/api/v2",
+      "enabled": false,
+      "status": "unknown",
+      "config": {
+        "workspaceId": "",
+        "defaultList": ""
+      }
+    },
+    {
+      "id": "googledrive",
+      "name": "Google Drive",
+      "type": "storage",
+      "icon": "hard-drive",
+      "description": "Google Drive für Datei-Speicherung, Dokumente und Sheets",
+      "baseUrl": "https://www.googleapis.com/drive/v3",
+      "enabled": false,
+      "status": "unknown",
+      "config": {
+        "scope": "drive.readonly",
+        "rootFolder": ""
       }
     }
   ]

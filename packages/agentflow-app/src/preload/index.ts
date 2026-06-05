@@ -29,6 +29,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readConnectors: () => ipcRenderer.invoke('connectors:read'),
   writeConnectors: (data: string) => ipcRenderer.invoke('connectors:write', data),
 
-  // Connector Ping
+  // Connector Ping (uses .env token)
   pingConnector: (connectorId: string) => ipcRenderer.invoke('connector:ping', connectorId),
+
+  // Connector Ping with explicit UI-entered key
+  pingConnectorWithKey: (connectorId: string, apiKey: string) =>
+    ipcRenderer.invoke('connector:ping-with-key', connectorId, apiKey),
 });

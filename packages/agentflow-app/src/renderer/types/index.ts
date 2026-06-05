@@ -305,6 +305,8 @@ export interface ElectronAPI {
   writeConnectors: (data: string) => Promise<{ success: boolean }>;
   // Connector Ping
   pingConnector: (connectorId: string) => Promise<PingResult>;
+  // Connector Ping with explicit UI-entered key
+  pingConnectorWithKey: (connectorId: string, apiKey: string) => Promise<PingResult>;
 }
 
 declare global {

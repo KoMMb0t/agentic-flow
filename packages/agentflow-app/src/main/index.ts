@@ -71,7 +71,7 @@ ipcMain.handle('anthropic:chat', async (_event, messages: Array<{ role: string; 
   const model = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514';
 
   if (!apiKey) {
-    return { error: 'ANTHROPIC_API_KEY nicht konfiguriert. Bitte .env prüfen.' };
+    return { error: 'ANTHROPIC_API_KEY nicht konfiguriert. Bitte .env prüfen oder API-Key in der UI verbinden.' };
   }
 
   try {
@@ -217,30 +217,50 @@ ipcMain.handle('connectors:write', async (_event, data: string) => {
 });
 
 // ============================================================
-// Connector Ping
+// Connector Ping (uses .env tokens)
 // ============================================================
 ipcMain.handle('connector:ping', async (_event, connectorId: string) => {
+  return pingConnector(connectorId, null);
+});
+
+// ============================================================
+// Connector Ping with explicit UI-entered key
+// ============================================================
+ipcMain.handle('connector:ping-with-key', async (_event, connectorId: string, apiKey: string) => {
+  return pingConnector(connectorId, apiKey);
+});
+
+// ── Shared ping logic ─────────────────────────────────────────
+async function pingConnector(
+  connectorId: string,
+  explicitKey: string | null
+): Promise<{ status: string; latency: number; message: string; data?: any }> {
   try {
     let url: string;
     let headers: Record<string, string> = {};
 
     switch (connectorId) {
-      case 'github':
+      case 'github': {
+        const token = explicitKey || process.env.GITHUB_TOKEN || '';
+        if (!token) return { status: 'error', latency: 0, message: 'Kein GitHub Token konfiguriert' };
         url = 'https://api.github.com/user';
         headers = {
-          'Authorization': `Bearer ${process.env.GITHUB_TOKEN || ''}`,
+          'Authorization': `Bearer ${token}`,
           'Accept': 'application/vnd.github+json',
           'User-Agent': 'AgentFlow-Desktop/2.0',
         };
         break;
-      case 'gitlab':
+      }
+      case 'gitlab': {
+        const token = explicitKey || process.env.GITLAB_TOKEN || '';
+        if (!token) return { status: 'error', latency: 0, message: 'Kein GitLab Token konfiguriert' };
         url = 'https://gitlab.com/api/v4/user';
-        headers = {
-          'PRIVATE-TOKEN': process.env.GITLAB_TOKEN || '',
-        };
+        headers = { 'PRIVATE-TOKEN': token };
         break;
+      }
       case 'anthropic': {
-        const anthropicKey = process.env.ANTHROPIC_API_KEY || '';
+        const anthropicKey = explicitKey || process.env.ANTHROPIC_API_KEY || '';
+        if (!anthropicKey) return { status: 'error', latency: 0, message: 'Kein Anthropic API Key konfiguriert' };
         const start = Date.now();
         const anthropicResponse = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
@@ -250,7 +270,7 @@ ipcMain.handle('connector:ping', async (_event, connectorId: string) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
+            model: 'claude-haiku-20240307',
             max_tokens: 10,
             messages: [{ role: 'user', content: 'ping' }],
           }),
@@ -262,12 +282,40 @@ ipcMain.handle('connector:ping', async (_event, connectorId: string) => {
           message: anthropicResponse.ok ? 'Verbunden' : `Fehler: ${anthropicResponse.status}`,
         };
       }
-      case 'slack':
-        return { status: 'offline', latency: 0, message: 'Slack-Token nicht konfiguriert' };
-      case 'openai':
-        return { status: 'offline', latency: 0, message: 'OpenAI-Token nicht konfiguriert' };
+      case 'openrouter': {
+        const token = explicitKey || process.env.OPENROUTER_API_KEY || '';
+        if (!token) return { status: 'error', latency: 0, message: 'Kein OpenRouter API Key konfiguriert' };
+        url = 'https://openrouter.ai/api/v1/models';
+        headers = {
+          'Authorization': `Bearer ${token}`,
+          'HTTP-Referer': 'https://agentflow.app',
+          'X-Title': 'AgentFlow Desktop',
+        };
+        break;
+      }
+      case 'slack': {
+        const token = explicitKey || process.env.SLACK_TOKEN || '';
+        if (!token) return { status: 'error', latency: 0, message: 'Kein Slack Token konfiguriert' };
+        url = 'https://slack.com/api/auth.test';
+        headers = { 'Authorization': `Bearer ${token}` };
+        break;
+      }
+      case 'clickup': {
+        const token = explicitKey || process.env.CLICKUP_TOKEN || '';
+        if (!token) return { status: 'error', latency: 0, message: 'Kein ClickUp Token konfiguriert' };
+        url = 'https://api.clickup.com/api/v2/user';
+        headers = { 'Authorization': token };
+        break;
+      }
+      case 'googledrive': {
+        const token = explicitKey || process.env.GOOGLE_API_KEY || '';
+        if (!token) return { status: 'error', latency: 0, message: 'Kein Google API Key konfiguriert' };
+        url = `https://www.googleapis.com/drive/v3/about?fields=user&key=${token}`;
+        headers = {};
+        break;
+      }
       default:
-        return { status: 'error', latency: 0, message: 'Unbekannter Konnektor' };
+        return { status: 'error', latency: 0, message: `Unbekannter Konnektor: ${connectorId}` };
     }
 
     const start = Date.now();
@@ -278,7 +326,7 @@ ipcMain.handle('connector:ping', async (_event, connectorId: string) => {
       status: response.ok ? 'online' : 'error',
       latency,
       message: response.ok ? 'Verbunden' : `Fehler: ${response.status}`,
-      data: response.ok ? await response.json() : null,
+      data: response.ok ? await response.json().catch(() => null) : null,
     };
   } catch (error: any) {
     return {
@@ -287,7 +335,7 @@ ipcMain.handle('connector:ping', async (_event, connectorId: string) => {
       message: error.message || 'Verbindung fehlgeschlagen',
     };
   }
-});
+}
 
 // ============================================================
 // App Lifecycle
