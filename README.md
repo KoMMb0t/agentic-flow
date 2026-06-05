@@ -113,6 +113,7 @@ Agentic-Flow v2 now includes **ALL** advanced vector/graph, GNN, and attention c
 - [Installation](#-installation)
 - [API Reference](#-api-reference)
 - [Architecture](#-architecture)
+- [AgentFlow Desktop App](#-agentflow-desktop-app)
 - [Contributing](#-contributing)
 
 ---
@@ -1905,6 +1906,69 @@ User Request
          ▼
     User Response
 ```
+
+---
+
+## 🖥️ AgentFlow Desktop App
+
+Agentic-Flow features a state-of-the-art multi-platform desktop application: **AgentFlow**, located in `packages/agentflow-app/`. It transforms the CLI-centric agentic-flow engine into a beautiful, visual, and highly interactive experience using **Electron**, **React 19**, and **TailwindCSS**.
+
+### Key Features of AgentFlow
+
+| Feature | Description |
+| :--- | :--- |
+| **Inverted Pyramid UI** | An innovative layer-based window management system that visually structures information from broad overviews down to precise code-level focus. |
+| **Unified Agent Panel** | Interactive dashboard supporting major external AI agents including **Manus**, **Claude**, **ChatGPT**, **Gemini**, **Monica**, **OpenClaw**, and more. |
+| **Platform Connector System** | Seamlessly link agent workflows with enterprise tools such as **Slack**, **GitHub**, **GitLab**, **ClickUp**, **Google Drive**, and local storage. |
+| **Skill Marketplace** | Decentralized, modular extension registry allowing agents to dynamically search, download, and execute new capabilities on-the-fly. |
+| **Prompt Generator** | Variable-driven prompt template builder with built-in AI optimization history to craft highly effective instructions. |
+| **Project Dashboard** | Real-time, aggregated project status pulling live insights across Slack channels, GitHub issues, ClickUp tasks, and active agent statuses. |
+| **Documentation Panel** | Automated documentation generation that synthesizes codebase patterns and agent logs into publication-ready Markdown/PDF files. |
+
+### Architecture: Inverted Pyramid UI
+
+```
+       ▲  [Schicht 3: Dokumentation / Debatten] (Deep Context)
+      / \
+     /   \ [Schicht 2: Skills / Prompts] (Interactive Tools)
+    /     \
+   /       \ [Schicht 1: Agenten / Konnektoren / Dashboard] (Control Panels)
+  /=========\
+  |  Basis  | [Schicht 0: Hauptarbeitsfenster] (Primary Work Environment)
+  └─────────┘
+```
+
+The UI utilizes a specialized React state manager (`layerStore`) to coordinate overlay depths:
+- **Layer 0 (Base):** The permanent primary workspace (e.g., Code Editor or Main Dashboard).
+- **Layers 1-3:** Overlapping interactive layers.
+- **Collapse All:** A single-click feature on any layer to immediately fold all layers above it back into the dock, bringing focus back to the workspace.
+- **Restore All:** Restores the exact multi-window topology and state layout with fluent CSS transitions.
+
+### Getting Started with AgentFlow
+
+```bash
+# Navigate to the desktop application directory
+cd packages/agentflow-app
+
+# Install package dependencies
+npm install
+
+# Start the web-only development server
+npm run dev
+
+# Start the Electron desktop app in development mode
+npm run electron:dev
+
+# Build the production assets
+npm run build
+
+# Build and package the Electron desktop app for Windows/Linux
+npm run electron:build
+```
+
+For a detailed breakdown of the technical architecture and specifications, please refer to:
+- [AgentFlow Erweiterungskonzept](docs/ERWEITERUNGSKONZEPT.md)
+- [Claude Code Prompt Integration Guide](docs/CLAUDE-CODE-PROMPT.md)
 
 ---
 

@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-af-darker text-af-text font-sans antialiased;
+    overflow: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-af-dark;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-af-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-af-text-muted;
+  }
+}
+
+@layer components {
+  .af-panel {
+    @apply bg-af-surface border border-af-border rounded-xl shadow-2xl;
+  }
+
+  .af-button {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 
+           hover:scale-105 active:scale-95;
+  }
+
+  .af-button-primary {
+    @apply af-button bg-af-primary text-white hover:bg-indigo-400;
+  }
+
+  .af-button-secondary {
+    @apply af-button bg-af-surface-light text-af-text hover:bg-af-border;
+  }
+
+  .af-input {
+    @apply w-full px-4 py-2 bg-af-dark border border-af-border rounded-lg 
+           text-af-text placeholder-af-text-muted focus:outline-none 
+           focus:ring-2 focus:ring-af-primary focus:border-transparent;
+  }
+
+  .af-card {
+    @apply bg-af-surface border border-af-border rounded-lg p-4 
+           transition-all duration-200 hover:border-af-primary/50;
+  }
+}
