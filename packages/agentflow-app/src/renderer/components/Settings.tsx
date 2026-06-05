@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAppStore } from '../stores/appStore';
 import { useApiKeys } from '../hooks/useApiKeys';
 import ApiKeyModal from './ApiKeyModal';
+import UpdateButton from './UpdateButton';
 import type { Connector } from '../types';
 
 // Inline connector definitions for the Settings page (subset of the full list)
@@ -192,6 +193,9 @@ const Settings: React.FC = () => {
           })}
         </div>
       </div>
+
+      {/* ── App-Update ──────────────────────────────────────── */}
+      <UpdateButton variant="full" autoCheck />
 
       {/* ── Über AgentFlow ──────────────────────────────────── */}
       <div className="bg-af-surface border border-af-border rounded-xl p-4">

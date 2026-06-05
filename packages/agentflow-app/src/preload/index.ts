@@ -35,4 +35,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Connector Ping with explicit UI-entered key
   pingConnectorWithKey: (connectorId: string, apiKey: string) =>
     ipcRenderer.invoke('connector:ping-with-key', connectorId, apiKey),
+
+  // App Update
+  checkUpdate: (githubToken?: string) => ipcRenderer.invoke('app:check-update', githubToken),
+  doUpdate: (githubToken?: string) => ipcRenderer.invoke('app:do-update', githubToken),
 });

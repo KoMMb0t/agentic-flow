@@ -284,6 +284,30 @@ export interface Notification {
 // ============================================================
 // Electron API Bridge
 // ============================================================
+export interface UpdateCheckResult {
+  localSha?: string;
+  localDate?: string;
+  localMessage?: string;
+  remoteSha?: string;
+  remoteDate?: string;
+  remoteMessage?: string;
+  remoteAuthor?: string;
+  hasUpdate?: boolean;
+  isGitRepo?: boolean;
+  error?: string;
+}
+
+export interface UpdateResult {
+  success: boolean;
+  output?: string;
+  newSha?: string;
+  newDate?: string;
+  newMessage?: string;
+  alreadyUpToDate?: boolean;
+  error?: string;
+}
+
+// ============================================================
 export interface ElectronAPI {
   // Window controls
   minimize: () => Promise<void>;
@@ -307,6 +331,9 @@ export interface ElectronAPI {
   pingConnector: (connectorId: string) => Promise<PingResult>;
   // Connector Ping with explicit UI-entered key
   pingConnectorWithKey: (connectorId: string, apiKey: string) => Promise<PingResult>;
+  // App Update
+  checkUpdate: (githubToken?: string) => Promise<UpdateCheckResult>;
+  doUpdate: (githubToken?: string) => Promise<UpdateResult>;
 }
 
 declare global {
